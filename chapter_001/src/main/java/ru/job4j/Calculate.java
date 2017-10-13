@@ -7,10 +7,20 @@ package ru.job4j;
 */
 
 class Calculate {
+	
 	/**
-	 * Метод для запуска программы
-	 * @param args аргументы программы
-	 * @return void
+	* Method echo.
+	* @param name Your name.
+	* @return Echo plus your name.
+	*/
+	public String echo(String name) {
+	    return "Echo, echo, echo : " + name;
+	}
+
+	/**
+	* Метод для запуска программы
+	* @param args аргументы программы
+	* @return void
 	*/
 	public static void main(String[] args) {
 		System.out.println("Hello World");
