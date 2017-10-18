@@ -3,7 +3,7 @@ package ru.job4j.max;
 /**
  * Class Max Решение задачи 3.1. Максимум из двух чисел [#189]
  * @author Aleksey Sidorenko (mailto:sidorenko.aleksey@gmail.com)
- * @since 17.10.2017
+ * @since 18.10.2017
  */
 public class Max {
 
