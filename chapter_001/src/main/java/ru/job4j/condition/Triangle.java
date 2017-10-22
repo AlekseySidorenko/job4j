@@ -74,7 +74,10 @@ public class Triangle {
      * @param bc Длина от точки b до точки c.
      * @return возвращает true, если треугольник существует
      */
-    private boolean exist(double ab, double ac, double bc) {
-        return (ab != 0 || ac != 0 || bc != 0);
+    protected boolean exist(double ab, double ac, double bc) {
+        return (ab > 0 && ac > 0 && bc > 0
+                && ((ab + bc) > ac)
+                && ((ab + ac) > bc)
+                && ((bc + ac) > ab));
     }
 }

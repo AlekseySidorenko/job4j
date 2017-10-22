@@ -1,6 +1,8 @@
 package ru.job4j.condition;
 
 import org.junit.Test;
+
+import static org.hamcrest.core.Is.is;
 import static org.hamcrest.number.IsCloseTo.closeTo;
 import static org.junit.Assert.assertThat;
 
@@ -34,7 +36,7 @@ public class TriangleTest {
      * Test distance.
      */
     @Test
-    public void whenDistanceDiffPointsThen10() {
+    public void whenDistanceSetDiffPointsThen10() {
         // Создаем два объекта класса Point.
         Point left = new Point(0, 0);
         Point right = new Point(0, 10);
@@ -51,7 +53,7 @@ public class TriangleTest {
      * Test period.
      */
     @Test
-    public void whenSetThreeDiffPointsThenPeriod() {
+    public void whenPeriodSetThreeDiffPointsThenPeriod() {
         // Создаем три объекта класса Point.
         Point a = new Point(0, 0);
         Point b = new Point(0, 2);
@@ -66,5 +68,48 @@ public class TriangleTest {
         double expected = 3.415D;
         // Проверяем результат и ожидаемое значение.
         assertThat(result, closeTo(expected, 0.1));
+    }
+
+    /**
+     * Test exist.
+     */
+    @Test
+    public void whenExistSetThreeDiffPointsThenExistIsTrue() {
+        // Создаем три объекта класса Point.
+        Point a = new Point(0, 0);
+        Point b = new Point(0, 2);
+        Point c = new Point(2, 0);
+        // Создаем объект треугольник и передаем в него объекты точек.
+        Triangle triangle = new Triangle(a, b, c);
+        // Вычисляем полупериметр.
+        boolean result = triangle.exist((triangle.distance(a, b)),
+                (triangle.distance(a, c)),
+                (triangle.distance(b, c)));
+        // Задаем ожидаемый результат.
+        boolean expected = true;
+        // Проверяем результат и ожидаемое значение.
+        assertThat(result, is(expected));
+    }
+
+    /**
+     * Test exist.
+     * Wrong parameters.
+     */
+    @Test
+    public void whenExistSetWrongPointThenExistIsFalse() {
+        // Создаем три объекта класса Point.
+        Point a = new Point(0, 0);
+        Point b = new Point(0, 2);
+        Point c = new Point(0, 0);
+        // Создаем объект треугольник и передаем в него объекты точек.
+        Triangle triangle = new Triangle(a, b, c);
+        // Вычисляем полупериметр.
+        boolean result = triangle.exist((triangle.distance(a, b)),
+                (triangle.distance(a, c)),
+                (triangle.distance(b, c)));
+        // Задаем ожидаемый результат.
+        boolean expected = false;
+        // Проверяем результат и ожидаемое значение.
+        assertThat(result, is(expected));
     }
 }
