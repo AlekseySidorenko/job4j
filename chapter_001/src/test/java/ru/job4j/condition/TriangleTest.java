@@ -96,7 +96,7 @@ public class TriangleTest {
      * Wrong parameters.
      */
     @Test
-    public void whenExistSetWrongPointThenExistIsFalse() {
+    public void whenCalculateAreaWithWrongParamsShouldGetIt() {
         // Создаем три объекта класса Point.
         Point a = new Point(0, 0);
         Point b = new Point(0, 2);
