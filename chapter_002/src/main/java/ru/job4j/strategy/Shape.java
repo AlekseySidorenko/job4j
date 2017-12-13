@@ -7,12 +7,7 @@ package ru.job4j.strategy;
  */
 public interface Shape {
     /**
-     * Метод рисует фигуру в формат String.
-     * @return Фигура.
-     */
-    String pic();
-    /**
      * Метод выводит фигуру в поток вывода.
      */
-    void draw();
+    String draw();
 }

@@ -17,10 +17,13 @@ public class SquareTest {
     @Test
     public void whenDrawSquare() {
         Shape square = new Square();
-        assertThat(square.pic(), is(new StringBuilder()
+        assertThat(square.draw(), is(new StringBuilder()
                                         .append("-------")
+                                        .append(System.lineSeparator())
                                         .append("-------")
+                                        .append(System.lineSeparator())
                                         .append("-------")
+                                        .append(System.lineSeparator())
                                         .append("-------")
                                         .toString()
                 )

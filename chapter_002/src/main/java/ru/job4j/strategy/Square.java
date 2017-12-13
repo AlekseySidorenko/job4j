@@ -12,28 +12,15 @@ public class Square implements Shape {
      * @return Фигура.
      */
     @Override
-    public String pic() {
+    public String draw() {
         StringBuilder picture = new StringBuilder();
         picture.append("-------");
+        picture.append(System.lineSeparator());
         picture.append("-------");
+        picture.append(System.lineSeparator());
         picture.append("-------");
+        picture.append(System.lineSeparator());
         picture.append("-------");
         return picture.toString();
     }
-
-    /**
-     * Метод выводит фигуру в поток вывода.
-     */
-    @Override
-    public void draw() {
-        String picture = this.pic();
-        String[] name = {picture.substring(0, 7),
-                         picture.substring(7, 14),
-                         picture.substring(14, 21),
-                         picture.substring(21)};
-        for (String sub : name) {
-            System.out.println(sub);
-        }
-    }
-
 }

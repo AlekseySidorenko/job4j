@@ -17,11 +17,15 @@ public class TriangleTest {
     @Test
     public void whenDrawTriangle() {
         Shape triangle = new Triangle();
-        assertThat(triangle.pic(), is(new StringBuilder()
+        assertThat(triangle.draw(), is(new StringBuilder()
                                           .append("   .   ")
+                                          .append(System.lineSeparator())
                                           .append("   -   ")
+                                          .append(System.lineSeparator())
                                           .append("  ---  ")
+                                          .append(System.lineSeparator())
                                           .append(" ----- ")
+                                          .append(System.lineSeparator())
                                           .append("-------")
                                           .toString()
                 )

@@ -12,7 +12,7 @@ public class Paint {
      * @param shape фигура.
      */
     public void draw(Shape shape) {
-        shape.draw();
+        System.out.println(shape.draw());
     }
 
     /**
