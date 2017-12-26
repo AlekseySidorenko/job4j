@@ -25,8 +25,7 @@ public class StartUITest {
 
     // Выносим вывод меню в отдельную переменную
     private final String menu = new StringBuilder()
-            .append(separator)
-            .append("0. Add new Item").append(separator)
+            .append("0. Add new item").append(separator)
             .append("1. Show all items").append(separator)
             .append("2. Edit item").append(separator)
             .append("3. Delete item").append(separator)
@@ -113,15 +112,15 @@ public class StartUITest {
         new StartUI(input, tracker).init();
 
         String result = new StringBuilder()
-                                .append(menu)
-                                .append("------------ Showing all tasks ------------")
-                                .append(separator)
-                                .append(this.showOneItem(item1))
-                                .append("------------").append(separator)
-                                .append(this.showOneItem(item2))
-                                .append("------------").append(separator)
-                                .append(menu)
-                                .toString();
+                .append(menu)
+                .append("------------ Showing all tasks ------------")
+                .append(separator)
+                .append(this.showOneItem(item1))
+                .append("------------").append(separator)
+                .append(this.showOneItem(item2))
+                .append("------------").append(separator)
+                .append(menu)
+                .toString();
         assertThat(new String(out.toByteArray()), is(result));
     }
 
