@@ -19,6 +19,9 @@ public class MenuTracker {
         this.tracker = tracker;
     }
 
+    public int getActionsSize() {
+        return actions.length;
+    }
     /**
      * Метод формирует меню и предоставляет выбор пользователю.
      */

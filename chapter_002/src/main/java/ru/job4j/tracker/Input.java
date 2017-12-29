@@ -12,4 +12,11 @@ public interface Input {
      * @return результат запроса.
      */
     String ask(String question);
+
+    /**
+     * Метод реализует запрос данных с проверкой входящих значений.
+     * @param question Текст запроса.
+     * @return результат запроса.
+     */
+    int ask(String question, int[] range);
 }

@@ -7,8 +7,20 @@ package ru.job4j.tracker;
  */
 public class StartUI {
 
+    private int[] range;
     private final Input input;
     private final Tracker tracker;
+
+    /**
+     * Метод формирует диапазон корректных значений для выбора в меню.
+     * @param userActionsSize количество пунктов в меню
+     */
+    private void setRanges(int userActionsSize) {
+        range = new int[userActionsSize];
+        for (int i = 0; i < userActionsSize; i++) {
+            range[i] = i;
+        }
+    }
 
     /**
      * Конструктор.
@@ -23,15 +35,15 @@ public class StartUI {
      */
     public void init() {
         MenuTracker menu = new MenuTracker(this.input, this.tracker);
-        int exitStatus;
+        setRanges(menu.getActionsSize());
+        int userChoiceKey;
 
         menu.fillActions();
         do {
             menu.show();
-            int key = Integer.valueOf(input.ask("Select: "));
-            exitStatus = key;
-            menu.select(key);
-        } while (exitStatus != 6);
+            userChoiceKey = input.ask("Select: ", range);
+            menu.select(userChoiceKey);
+        } while (userChoiceKey != 6);
     }
 
     /**
@@ -39,6 +51,6 @@ public class StartUI {
      * @param args args.
      */
     public static void main(String[] args) {
-        new StartUI(new ConsoleInput(), new Tracker()).init();
+        new StartUI(new ValidateInput(), new Tracker()).init();
     }
 }
