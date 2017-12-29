@@ -15,7 +15,7 @@ public class StartUI {
      * Метод формирует диапазон корректных значений для выбора в меню.
      * @param userActionsSize количество пунктов в меню
      */
-    private void setRanges(int userActionsSize) {
+    private void setRange(int userActionsSize) {
         range = new int[userActionsSize];
         for (int i = 0; i < userActionsSize; i++) {
             range[i] = i;
@@ -35,7 +35,7 @@ public class StartUI {
      */
     public void init() {
         MenuTracker menu = new MenuTracker(this.input, this.tracker);
-        setRanges(menu.getActionsSize());
+        setRange(menu.getActionsSize());
         int userChoiceKey;
 
         menu.fillActions();
@@ -51,6 +51,6 @@ public class StartUI {
      * @param args args.
      */
     public static void main(String[] args) {
-        new StartUI(new ValidateInput(), new Tracker()).init();
+        new StartUI(new ValidateInput(new ConsoleInput()), new Tracker()).init();
     }
 }
