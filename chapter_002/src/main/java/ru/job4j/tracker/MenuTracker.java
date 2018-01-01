@@ -10,6 +10,7 @@ public class MenuTracker {
     private Input input;
     private Tracker tracker;
     private UserAction[] actions = new UserAction[7];
+    private int position = 0;
 
     /**
      * Конструктор.
@@ -26,13 +27,13 @@ public class MenuTracker {
      * Метод формирует меню и предоставляет выбор пользователю.
      */
     public void fillActions() {
-        this.actions[0] = this.new AddItem();
-        this.actions[1] = new MenuTracker.ShowItems();
-        this.actions[2] = new EditItem();
-        this.actions[3] = this.new DeleteItem();
-        this.actions[4] = new MenuTracker.FindItemById();
-        this.actions[5] = new MenuTracker.FindItemsByName();
-        this.actions[6] = this.new ExitProgram();
+        this.actions[position++] = this.new AddItem(0, "Add new item");
+        this.actions[position++] = new MenuTracker.ShowItems(1, "Show all items");
+        this.actions[position++] = new EditItem(2, "Edit item");
+        this.actions[position++] = this.new DeleteItem(3, "Delete item");
+        this.actions[position++] = new MenuTracker.FindItemById(4, "Find item by Id");
+        this.actions[position++] = new MenuTracker.FindItemsByName(5, "Find items by name");
+        this.actions[position++] = this.new ExitProgram(6, "Exit Program");
     }
 
     /**
@@ -58,11 +59,10 @@ public class MenuTracker {
      * @author Aleksey Sidorenko (mailto:sidorenko.aleksey@gmail.com)
      * @since 25.12.2017
      */
-    public class AddItem implements UserAction {
+    public class AddItem extends BaseAction {
 
-        @Override
-        public int key() {
-            return 0;
+        public AddItem(int key, String name) {
+            super(key, name);
         }
 
         @Override
@@ -78,11 +78,6 @@ public class MenuTracker {
             System.out.println("------------ New task ------------");
             tracker.showItemById(item.getId());
         }
-
-        @Override
-        public String info() {
-            return String.format("%s. %s", this.key(), "Add new item");
-        }
     }
 
     /**
@@ -90,11 +85,10 @@ public class MenuTracker {
      * @author Aleksey Sidorenko (mailto:sidorenko.aleksey@gmail.com)
      * @since 25.12.2017
      */
-    public static class ShowItems implements UserAction {
+    public static class ShowItems extends BaseAction {
 
-        @Override
-        public int key() {
-            return 1;
+        protected ShowItems(int key, String name) {
+            super(key, name);
         }
 
         @Override
@@ -105,11 +99,6 @@ public class MenuTracker {
                 System.out.println("------------");
             }
         }
-
-        @Override
-        public String info() {
-            return String.format("%s. %s", this.key(), "Show all items");
-        }
     }
 
     /**
@@ -117,11 +106,10 @@ public class MenuTracker {
      * @author Aleksey Sidorenko (mailto:sidorenko.aleksey@gmail.com)
      * @since 25.12.2017
      */
-    public class DeleteItem implements UserAction {
+    public class DeleteItem extends BaseAction {
 
-        @Override
-        public int key() {
-            return 3;
+        public DeleteItem(int key, String name) {
+            super(key, name);
         }
 
         @Override
@@ -130,11 +118,6 @@ public class MenuTracker {
             System.out.println("------------ Deleting task with id " + deletingItem.getId() + "------------");
             tracker.delete(deletingItem);
         }
-
-        @Override
-        public String info() {
-            return String.format("%s. %s", this.key(), "Delete item");
-        }
     }
 
     /**
@@ -142,23 +125,15 @@ public class MenuTracker {
      * @author Aleksey Sidorenko (mailto:sidorenko.aleksey@gmail.com)
      * @since 25.12.2017
      */
-    public static class FindItemById implements UserAction {
+    public static class FindItemById extends BaseAction {
 
-        @Override
-        public int key() {
-            return 4;
+        public FindItemById(int key, String name) {
+            super(key, name);
         }
 
         @Override
         public void execute(Input input, Tracker tracker) {
-
             tracker.showItemById(input.ask("Enter finding item id: "));
-
-        }
-
-        @Override
-        public String info() {
-            return String.format("%s. %s", this.key(), "Find item by Id");
         }
     }
 
@@ -167,11 +142,10 @@ public class MenuTracker {
      * @author Aleksey Sidorenko (mailto:sidorenko.aleksey@gmail.com)
      * @since 25.12.2017
      */
-    public static class FindItemsByName implements UserAction {
+    public static class FindItemsByName extends BaseAction {
 
-        @Override
-        public int key() {
-            return 5;
+        public FindItemsByName(int key, String name) {
+            super(key, name);
         }
 
         @Override
@@ -183,11 +157,6 @@ public class MenuTracker {
                 System.out.println("------------");
             }
         }
-
-        @Override
-        public String info() {
-            return String.format("%s. %s", this.key(), "Find items by name");
-        }
     }
 
     /**
@@ -195,20 +164,14 @@ public class MenuTracker {
      * @author Aleksey Sidorenko (mailto:sidorenko.aleksey@gmail.com)
      * @since 25.12.2017
      */
-    public class ExitProgram implements UserAction {
+    public class ExitProgram extends BaseAction {
 
-        @Override
-        public int key() {
-            return 6;
+        public ExitProgram(int key, String name) {
+            super(key, name);
         }
 
         @Override
         public void execute(Input input, Tracker tracker) {
-        }
-
-        @Override
-        public String info() {
-            return String.format("%s. %s", this.key(), "Exit Program");
         }
     }
 }
@@ -218,11 +181,10 @@ public class MenuTracker {
  * @author Aleksey Sidorenko (mailto:sidorenko.aleksey@gmail.com)
  * @since 25.12.2017
  */
-class EditItem implements UserAction {
+class EditItem extends BaseAction {
 
-    @Override
-    public int key() {
-        return 2;
+    protected EditItem(int key, String name) {
+        super(key, name);
     }
 
     @Override
@@ -234,10 +196,5 @@ class EditItem implements UserAction {
         tracker.update(editingItem);
         System.out.println("Task was update");
         tracker.showItemById(editingItem.getId());
-    }
-
-    @Override
-    public String info() {
-        return String.format("%s. %s", this.key(), "Edit item");
     }
 }
