@@ -17,7 +17,6 @@ public class ConvertList {
      */
     public static List<Integer> toList(int[][] array) {
         List<Integer> result = new ArrayList<>();
-
         for (int[] i : array) {
             for (int j : i) {
                 result.add(j);
@@ -33,8 +32,6 @@ public class ConvertList {
      * @return Двумерный массив.
      */
     public static int[][] toArray(List<Integer> list, int rows) {
-
-        // определяем размерность массива
         int columns;
         if ((list.size() % rows) == 0) {
             columns = list.size() / rows;
@@ -42,30 +39,16 @@ public class ConvertList {
             columns = (list.size() / rows) + 1;
         }
         int[][] result = new int[rows][columns];
-
-        int listIndex = 0;
+        int index = 0;
         for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < columns; j++, listIndex++) {
-                if (listIndex < list.size()) {
-                    result[i][j] = list.get(listIndex);
+            for (int j = 0; j < columns; j++, index++) {
+                if (index < list.size()) {
+                    result[i][j] = list.get(index);
                 } else {
                     result[i][j] = 0;
                 }
             }
         }
-
-        /*for (int[] row : result) {
-            for (int element : row) {
-                if (listIndex < list.size()) {
-                    element = list.get(listIndex);
-                    listIndex++;
-                } else {
-                    element = 0;
-                }
-
-            }
-        }*/
-
         return result;
     }
 }

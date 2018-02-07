@@ -21,7 +21,6 @@ public class ConvertListTest {
     @Test
     public void whenSentArrayThenReturnListWithArrayElements() {
         int[][] array = {{1, 2, 3}, {4, 5, 6}};
-
         List<Integer> expected = new ArrayList<>();
         expected.add(1);
         expected.add(2);
@@ -29,10 +28,8 @@ public class ConvertListTest {
         expected.add(4);
         expected.add(5);
         expected.add(6);
-
         List<Integer> result = new ArrayList<>();
         result.addAll(ConvertList.toList(array));
-
         assertThat(expected, is(result));
     }
 
@@ -49,11 +46,8 @@ public class ConvertListTest {
         list.add(5);
         list.add(6);
         list.add(7);
-
         int[][] expected = {{1, 2, 3, 4}, {5, 6, 7, 0}};
-
         int[][] result = ConvertList.toArray(list, 2);
-
         assertThat(expected, is(result));
     }
 }
