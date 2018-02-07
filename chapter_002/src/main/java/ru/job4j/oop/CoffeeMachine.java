@@ -17,37 +17,22 @@ public class CoffeeMachine {
         // 502 - максимально возможное количество монет в сдаче
         // при условии, что максимальный размер купюры - 5000 руб.,
         // а минимальная цена кофе - 1 руб.
-        int[] coins = new int[502];
+        final int MAX_SIZE = 502;
+        int[] change = new int[MAX_SIZE];
+        final int[] coins = {10, 5, 2, 1};
         int[] result;
-        int arrayIndex = 0;
-
-        int change = value - price;
-        while (change > 0) {
-            while (change >= 10) {
-                change -= 10;
-                coins[arrayIndex] = 10;
-                arrayIndex++;
-            }
-            while (change >= 5) {
-                change -= 5;
-                coins[arrayIndex] = 5;
-                arrayIndex++;
-            }
-            while (change >= 2) {
-                change -= 2;
-                coins[arrayIndex] = 2;
-                arrayIndex++;
-            }
-            while (change >= 1) {
-                change -= 1;
-                coins[arrayIndex] = 1;
-                arrayIndex++;
+        int index = 0;
+        int rest = value - price;
+        for (int coin : coins) {
+            while (rest >= coin) {
+                rest -= coin;
+                change[index] = coin;
+                index++;
             }
         }
-
-        result = new int[arrayIndex];
-        for (int i = 0; i < arrayIndex; i++) {
-            result[i] = coins[i];
+        result = new int[index];
+        for (int i = 0; i < index; i++) {
+            result[i] = change[i];
         }
         return result;
     }
