@@ -30,7 +30,7 @@ public class ConvertListTest {
         expected.add(6);
         List<Integer> result = new ArrayList<>();
         result.addAll(ConvertList.toList(array));
-        assertThat(expected, is(result));
+        assertThat(result, is(expected));
     }
 
     /**
@@ -48,6 +48,6 @@ public class ConvertListTest {
         list.add(7);
         int[][] expected = {{1, 2, 3, 4}, {5, 6, 7, 0}};
         int[][] result = ConvertList.toArray(list, 2);
-        assertThat(expected, is(result));
+        assertThat(result, is(expected));
     }
 }
