@@ -51,4 +51,21 @@ public class ConvertList {
         }
         return result;
     }
+
+    /**
+     * Решение задачи Конвертация листа массивов в один лист Integer [#10037].
+     * Метод конвертирует List с элементами int[] в List,
+     * состоящий из элементов всех int[].
+     * @param list List.
+     * @return List, состоящий из элементов всех int[].
+     */
+    public static List<Integer> convert(List<int[]> list) {
+        List<Integer> result = new ArrayList<>();
+        for (int[] array : list) {
+            for (int i : array) {
+                result.add(i);
+            }
+        }
+        return result;
+    }
 }

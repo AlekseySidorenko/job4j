@@ -50,4 +50,27 @@ public class ConvertListTest {
         int[][] result = ConvertList.toArray(list, 2);
         assertThat(result, is(expected));
     }
+
+    /**
+     * Test convert.
+     */
+    @Test
+    public void whenSentListWithArraysThenReturnListWithArraysElements() {
+        List<int[]> list = new ArrayList<>();
+        list.add(new int[]{1, 2});
+        list.add(new int[]{3, 4, 5, 6});
+        list.add(new int[]{6, 6, 12});
+        List<Integer> expected = new ArrayList<>();
+        expected.add(1);
+        expected.add(2);
+        expected.add(3);
+        expected.add(4);
+        expected.add(5);
+        expected.add(6);
+        expected.add(6);
+        expected.add(6);
+        expected.add(12);
+        List<Integer> result = ConvertList.convert(list);
+        assertThat(result, is(expected));
+    }
 }
