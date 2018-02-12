@@ -1,6 +1,10 @@
 package ru.job4j.tracker;
 
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -28,15 +32,10 @@ public class TrackerTest {
     public void whenUpdateItemNameThenReturnNewItemName() {
         Tracker tracker = new Tracker();
         Item previous = new Item("test1", "testDescription", 123L);
-        // Добавляем заявку в трекер. Теперь в объект проинициализирован id.
         tracker.add(previous);
-        // Создаем новую заявку.
         Item next = new Item("test2", "testDescription2", 1234L);
-        // Проставляем старый id из previous, который был сгенерирован выше.
         next.setId(previous.getId());
-        // Обновляем заявку в трекере.
         tracker.update(next);
-        // Проверяем, что заявка с таким id имеет новые имя test2.
         assertThat(tracker.findById(previous.getId()).getName(), is("test2"));
     }
 
@@ -51,7 +50,6 @@ public class TrackerTest {
         Item secondItem = new Item("secondItem", "testDescription", 123L);
         tracker.add(secondItem);
         tracker.delete(firstItem);
-
         assertThat(tracker.findById(firstItem.getId()), is((Item) null));
     }
 
@@ -67,8 +65,10 @@ public class TrackerTest {
         tracker.add(secondItem);
         Item thirdItem = new Item("thirdItem", "testDescription", 123L);
         tracker.add(thirdItem);
-        Item[] expected = {firstItem, secondItem, thirdItem};
-
+        List<Item> expected = new ArrayList<>();
+        expected.add(firstItem);
+        expected.add(secondItem);
+        expected.add(thirdItem);
         assertThat((tracker.findAll()), is(expected));
     }
 
@@ -84,9 +84,9 @@ public class TrackerTest {
         tracker.add(secondItem);
         Item thirdItem = new Item("TestItem3", "testDescription2", 1232L);
         tracker.add(thirdItem);
-
-        Item[] expected = {firstItem, secondItem};
-
+        List<Item> expected = new ArrayList<>();
+        expected.add(firstItem);
+        expected.add(secondItem);
         assertThat((tracker.findByName("TestItem")), is(expected));
     }
 
@@ -100,10 +100,8 @@ public class TrackerTest {
         tracker.add(firstItem);
         Item secondItem = new Item("secondItem", "testDescription2", 1232L);
         tracker.add(secondItem);
-
         Item[] expected = {firstItem, secondItem};
         Item[] result = {tracker.findById(firstItem.getId()), tracker.findById(secondItem.getId())};
-
         assertThat((result), is(expected));
     }
 }

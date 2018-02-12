@@ -1,5 +1,7 @@
 package ru.job4j.tracker;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -8,9 +10,7 @@ import java.util.Random;
  * @since 04.12.2017
  */
 public class Tracker {
-
-    private Item[] items = new Item[100];
-    private int position = 0;
+    private List<Item> items = new ArrayList<>();
     private static final Random RN = new Random();
 
     /**
@@ -20,7 +20,7 @@ public class Tracker {
      */
     public Item add(Item item) {
         item.setId(this.generatedId());
-        this.items[this.position++] = item;
+        this.items.add(item);
         return item;
     }
 
@@ -49,38 +49,15 @@ public class Tracker {
      * @param item заявка.
      */
     public void delete(Item item) {
-        // индекс удаляемого элемента в массиве items[]
-        int index = -1;
-        int lastUniqueElement = -1;
-        // находим нужный нам элемент и присваиваем ему значение null
-        for (int i = 0; i < position; i++) {
-            if (items[i].getId().equals(item.getId())) {
-                items[i] = null;
-                index = i;
-            }
-        }
-        // если элемент был найден и удален
-        if (index >= 0) {
-            // сдвигаем все оставшиеся элементы в массиве влево на одну позицию
-            for (int i = index; i < position - 1; i++) {
-                items[i] = items[i + 1];
-                lastUniqueElement = i;
-            }
-            items[lastUniqueElement + 1] = null;
-            position = position - 1;
-        }
+        items.remove(item);
     }
 
     /**
      * Метод реализует получение списка всех заявок.
      * @return Все заявки.
      */
-    public Item[] findAll() {
-        Item[] result = new Item[position];
-        for (int i = 0; i < position; i++) {
-            result[i] = items[i];
-        }
-        return result;
+    public List<Item> findAll() {
+        return items;
     }
 
     /**
@@ -88,24 +65,13 @@ public class Tracker {
      * @param key имя заявки.
      * @return Список найденных заявок.
      */
-    public Item[] findByName(String key) {
-        Item[] array = new Item[position];
-        int index = -1;
+    public List<Item> findByName(String key) {
+        List<Item> result = new ArrayList<>();
         // создаем массив с найденными элементами
         for (Item item : items) {
-            if ((item != null) && (item.getName().equals(key))) {
-                index++;
-                array[index] = item;
+            if ((item.getName().equals(key))) {
+                result.add(item);
             }
-        }
-        // обрезаем массив
-        Item[] result = new Item[index + 1];
-        index = 0;
-        for (Item item : array) {
-            if (item != null) {
-                result[index] = item;
-            }
-            index++;
         }
         return result;
     }

@@ -16,13 +16,10 @@ import static org.junit.Assert.assertThat;
 public class StartUITest {
     // Поле содержит дефолтный вывод в консоль.
     private final PrintStream stdout = System.out;
-
     // Буфер для результата.
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
-
     // Выносим разделитель строк в отдельную переменную
     private final String separator = System.lineSeparator();
-
     // Выносим вывод меню в отдельную переменную
     private final String menu = new StringBuilder()
             .append("0. Add new item").append(separator)
@@ -65,13 +62,13 @@ public class StartUITest {
      */
     @Test
     public void whenUserAddItemThenTrackerHasNewItemWithSameName() {
-        Tracker tracker = new Tracker();     // создаём Tracker
+        Tracker tracker = new Tracker();
         // создаём StubInput с последовательностью действий
         Input input = new StubInput(new String[]{"0", "test name", "desc", "6"});
-        //   создаём StartUI и вызываем метод init()
+        // создаём StartUI и вызываем метод init()
         new StartUI(input, tracker).init();
         // проверяем, что нулевой элемент массива в трекере содержит имя, введённое при эмуляции.
-        assertThat(tracker.findAll()[0].getName(), is("test name"));
+        assertThat(tracker.findAll().get(0).getName(), is("test name"));
     }
 
     /**
@@ -110,7 +107,6 @@ public class StartUITest {
         tracker.add(item2);
         Input input = new StubInput(new String[]{"1", "6"});
         new StartUI(input, tracker).init();
-
         String result = new StringBuilder()
                 .append(menu)
                 .append("------------ Showing all tasks ------------")
@@ -134,7 +130,6 @@ public class StartUITest {
         tracker.add(item1);
         Input input = new StubInput(new String[]{"4", item1.getId(), "6"});
         new StartUI(input, tracker).init();
-
         String result = new StringBuilder()
                 .append(menu)
                 .append(this.showOneItem(item1))
@@ -153,7 +148,6 @@ public class StartUITest {
         tracker.add(item1);
         Input input = new StubInput(new String[]{"5", item1.getName(), "6"});
         new StartUI(input, tracker).init();
-
         String result = new StringBuilder()
                 .append(menu)
                 .append(this.showOneItem(item1))

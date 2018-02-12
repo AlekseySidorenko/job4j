@@ -1,5 +1,8 @@
 package ru.job4j.tracker;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Class MenuTracker Реализовать события на внутренних классах. [#787]
  * @author Aleksey Sidorenko (mailto:sidorenko.aleksey@gmail.com)
@@ -9,8 +12,14 @@ public class MenuTracker {
 
     private Input input;
     private Tracker tracker;
-    private UserAction[] actions = new UserAction[7];
-    private int position = 0;
+    private List<UserAction> actions = new ArrayList<>();
+
+    /**
+     * Геттер.
+     */
+    public int getActionsSize() {
+        return actions.size();
+    }
 
     /**
      * Конструктор.
@@ -20,27 +29,24 @@ public class MenuTracker {
         this.tracker = tracker;
     }
 
-    public int getActionsSize() {
-        return actions.length;
-    }
     /**
      * Метод формирует меню и предоставляет выбор пользователю.
      */
     public void fillActions() {
-        this.actions[position++] = this.new AddItem(0, "Add new item");
-        this.actions[position++] = new MenuTracker.ShowItems(1, "Show all items");
-        this.actions[position++] = new EditItem(2, "Edit item");
-        this.actions[position++] = this.new DeleteItem(3, "Delete item");
-        this.actions[position++] = new MenuTracker.FindItemById(4, "Find item by Id");
-        this.actions[position++] = new MenuTracker.FindItemsByName(5, "Find items by name");
-        this.actions[position++] = this.new ExitProgram(6, "Exit Program");
+        this.actions.add(this.new AddItem(0, "Add new item"));
+        this.actions.add(new MenuTracker.ShowItems(1, "Show all items"));
+        this.actions.add(new MenuTracker.EditItem(2, "Edit item"));
+        this.actions.add(this.new DeleteItem(3, "Delete item"));
+        this.actions.add(new MenuTracker.FindItemById(4, "Find item by Id"));
+        this.actions.add(new MenuTracker.FindItemsByName(5, "Find items by name"));
+        this.actions.add(this.new ExitProgram(6, "Exit Program"));
     }
 
     /**
      * Метод выполняет действие, выбранное пользователем.
      */
     public void select(int key) {
-        this.actions[key].execute(this.input, this.tracker);
+        actions.get(key).execute(this.input, this.tracker);
     }
 
     /**
@@ -48,9 +54,7 @@ public class MenuTracker {
      */
     public void show() {
         for (UserAction action : this.actions) {
-            if (action != null) {
-                System.out.println(action.info());
-            }
+            System.out.println(action.info());
         }
     }
 
@@ -71,7 +75,6 @@ public class MenuTracker {
             String name = input.ask("Enter task name: ");
             String desc = input.ask("Enter task description: ");
             long create = System.currentTimeMillis();
-
             Item item = new Item(name, desc, create);
             tracker.add(item);
             System.out.println();
@@ -87,7 +90,7 @@ public class MenuTracker {
      */
     public static class ShowItems extends BaseAction {
 
-        protected ShowItems(int key, String name) {
+        public ShowItems(int key, String name) {
             super(key, name);
         }
 
@@ -150,8 +153,8 @@ public class MenuTracker {
 
         @Override
         public void execute(Input input, Tracker tracker) {
-
-            Item[] result = tracker.findByName(input.ask("Enter finding item (items) name: "));
+            List<Item> result = new ArrayList<>();
+            result.addAll(tracker.findByName(input.ask("Enter finding item (items) name: ")));
             for (Item item : result) {
                 tracker.showItemById(item.getId());
                 System.out.println("------------");
@@ -174,27 +177,27 @@ public class MenuTracker {
         public void execute(Input input, Tracker tracker) {
         }
     }
-}
 
-/**
- * Class EditItem Реализует редактирование заявки.
- * @author Aleksey Sidorenko (mailto:sidorenko.aleksey@gmail.com)
- * @since 25.12.2017
- */
-class EditItem extends BaseAction {
+    /**
+     * Class EditItem Реализует редактирование заявки.
+     * @author Aleksey Sidorenko (mailto:sidorenko.aleksey@gmail.com)
+     * @since 25.12.2017
+     */
+    public class EditItem extends BaseAction {
 
-    protected EditItem(int key, String name) {
-        super(key, name);
-    }
+        public EditItem(int key, String name) {
+            super(key, name);
+        }
 
-    @Override
-    public void execute(Input input, Tracker tracker) {
-        Item editingItem = tracker.findById(input.ask("Enter editing item's id: "));
-        System.out.println("------------ Updating task with id " + editingItem.getId() + "------------");
-        editingItem.setName(input.ask("Enter new task's name: "));
-        editingItem.setDesc(input.ask("Enter new task's description: "));
-        tracker.update(editingItem);
-        System.out.println("Task was update");
-        tracker.showItemById(editingItem.getId());
+        @Override
+        public void execute(Input input, Tracker tracker) {
+            Item editingItem = tracker.findById(input.ask("Enter editing item's id: "));
+            System.out.println("------------ Updating task with id " + editingItem.getId() + "------------");
+            editingItem.setName(input.ask("Enter new task's name: "));
+            editingItem.setDesc(input.ask("Enter new task's description: "));
+            tracker.update(editingItem);
+            System.out.println("Task was update");
+            tracker.showItemById(editingItem.getId());
+        }
     }
 }

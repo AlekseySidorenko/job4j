@@ -35,10 +35,9 @@ public class StartUI {
      */
     public void init() {
         MenuTracker menu = new MenuTracker(this.input, this.tracker);
+        menu.fillActions();
         setRange(menu.getActionsSize());
         int userChoiceKey;
-
-        menu.fillActions();
         do {
             menu.show();
             userChoiceKey = input.ask("Select: ", range);
