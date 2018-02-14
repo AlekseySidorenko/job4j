@@ -7,7 +7,7 @@ import java.util.*;
  * @author Aleksey Sidorenko (mailto:sidorenko.aleksey@gmail.com)
  * @since 13.02.2018
  */
-public class SortUser implements Comparator<User> {
+public class SortUser {
 
     /**
      * Метод возвращает TreeSet пользователей, отсортированных по возрасту в порядке возрастания.
@@ -15,13 +15,8 @@ public class SortUser implements Comparator<User> {
      * @return TreeSet пользователей, отсортированных по возрасту в порядке возрастания.
      */
     public Set<User> sort(List<User> list) {
-        Set<User> result = new TreeSet<>(new SortUser());
+        Set<User> result = new TreeSet<>();
         result.addAll(list);
         return result;
-    }
-
-    @Override
-    public int compare(User o1, User o2) {
-        return Integer.compare(o1.age, o2.age);
     }
 }

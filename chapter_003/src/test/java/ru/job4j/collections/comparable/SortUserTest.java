@@ -29,7 +29,7 @@ public class SortUserTest {
         users.add(user2);
         users.add(user3);
         Set<User> result = new SortUser().sort(users);
-        Set<User> expected = new TreeSet<>(new SortUser());
+        Set<User> expected = new TreeSet<>();
         expected.add(new User("Fedor", 21));
         expected.add(new User("Ivan", 32));
         expected.add(new User("Fedor", 28));
