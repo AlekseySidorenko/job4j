@@ -19,18 +19,22 @@ public class UserConvertTest {
      */
     @Test
     public void whenSentListWithUsersThenGetHashMap() {
-        // arrange
         HashMap<Integer, User> expected = new HashMap<>();
-        expected.put(123, new User(123, "Alexey", "Spb"));
         expected.put(124, new User(124, "Egor", "Moscow"));
         List<User> list = new ArrayList<>();
-        list.add(new User(123, "Alexey", "Spb"));
         list.add(new User(124, "Egor", "Moscow"));
-
-        // act
         HashMap<Integer, User> result = new UserConvert().process(list);
+        assertThat(result, is(expected));
+    }
 
-        // assert
+    /**
+     * Test process.
+     */
+    @Test
+    public void whenSentEmptyListThenGetEmptyHashMap() {
+        HashMap<Integer, User> expected = new HashMap<>();
+        List<User> list = new ArrayList<>();
+        HashMap<Integer, User> result = new UserConvert().process(list);
         assertThat(result, is(expected));
     }
 }
