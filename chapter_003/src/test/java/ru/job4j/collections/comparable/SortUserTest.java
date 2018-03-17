@@ -22,12 +22,9 @@ public class SortUserTest {
     @Test
     public void whenNoOrderedUserListThenGetOrderedSet() {
         List<User> users = new ArrayList<>();
-        User user1 = new User("Ivan", 32);
-        User user2 = new User("Fedor", 28);
-        User user3 = new User("Fedor", 21);
-        users.add(user1);
-        users.add(user2);
-        users.add(user3);
+        users.add(new User("Ivan", 32));
+        users.add(new User("Fedor", 28));
+        users.add(new User("Fedor", 21));
         Set<User> result = new SortUser().sort(users);
         Set<User> expected = new TreeSet<>();
         expected.add(new User("Fedor", 21));

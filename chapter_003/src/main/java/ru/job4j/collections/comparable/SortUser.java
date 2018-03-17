@@ -19,27 +19,4 @@ public class SortUser {
         result.addAll(list);
         return result;
     }
-
-    public List<User> sortNameLength(List<User> list) {
-        new Comparator<User>() {
-
-            @Override
-            public int compare(User left, User right) {
-                return Integer.compare(left.name.length(), right.name.length());
-            }
-        };
-        return null;
-    }
-
-    public List<User> sortByAllFields(List<User> list) {
-        new Comparator<User>() {
-
-            @Override
-            public int compare(User left, User right) {
-                int nameCompare = left.name.compareTo(right.name);
-                return nameCompare != 0 ? nameCompare : Integer.compare(left.name.length(), right.name.length());
-            }
-        };
-        return null;
-    }
 }
