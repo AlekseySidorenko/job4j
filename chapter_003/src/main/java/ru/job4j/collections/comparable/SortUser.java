@@ -19,4 +19,35 @@ public class SortUser {
         result.addAll(list);
         return result;
     }
+
+    /**
+     * Метод возвращает ArrayList пользователей, отсортированных по длине имени.
+     * @param list List.
+     * @return ArrayList пользователей, отсортированных по длине имени.
+     */
+    public List<User> sortByNameLength(List<User> list) {
+        list.sort(new Comparator<User>() {
+            @Override
+            public int compare(User left, User right) {
+                return Integer.compare(left.name.length(), right.name.length());
+            }
+        });
+        return list;
+    }
+
+    /**
+     * Метод возвращает ArrayList пользователей, отсортированных по всем полям в порядке возрастания.
+     * @param list List.
+     * @return ArrayList пользователей, отсортированных по всем полям в порядке возрастания.
+     */
+    public List<User> sortByAllFields(List<User> list) {
+        list.sort(new Comparator<User>() {
+            @Override
+            public int compare(User left, User right) {
+                int nameCompare = left.name.compareTo(right.name);
+                return nameCompare != 0 ? nameCompare : Integer.compare(left.age, right.age);
+            }
+        });
+        return list;
+    }
 }
