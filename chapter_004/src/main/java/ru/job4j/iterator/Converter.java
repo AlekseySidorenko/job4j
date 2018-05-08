@@ -20,22 +20,20 @@ public class Converter {
              */
             @Override
             public boolean hasNext() {
-                boolean result = false;
                 while (iterator != null) {
                     if (iterator.hasNext()) {
-                        result = true;
-                        break;
+                        return true;
                     } else {
                         iterator = it.hasNext() ? it.next() : null;
                     }
                 }
-                return result;
+                return false;
             }
 
             /**
              * Get next element in array.
              * @return next element in array.
-             * @throws NoSuchElementException
+             * @throws NoSuchElementException NoSuchElementException
              */
             @Override
             public Integer next() {

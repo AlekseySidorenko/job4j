@@ -26,30 +26,24 @@ public class EvenIterator implements Iterator {
      */
     @Override
     public boolean hasNext() {
-        boolean result = false;
-        int i = index;
-        while (i < numbers.length) {
-            if ((numbers[i] % 2) == 0) {
-                result = true;
-                break;
+        while (index < numbers.length) {
+            if ((numbers[index] % 2) == 0) {
+                return true;
             }
-            i++;
+            index++;
         }
-        return result;
+        return false;
     }
 
     /**
      * Get next element in array.
      * @return next element in array.
-     * @throws NoSuchElementException
+     * @throws NoSuchElementException NoSuchElementException
      */
     @Override
     public Object next() {
         if (!this.hasNext()) {
             throw new NoSuchElementException();
-        }
-        while ((numbers[index] % 2 != 0) && (this.hasNext())) {
-               index++;
         }
         return numbers[index++];
     }

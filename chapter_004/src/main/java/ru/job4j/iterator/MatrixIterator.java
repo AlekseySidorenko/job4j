@@ -36,7 +36,7 @@ public class MatrixIterator implements Iterator {
      */
     @Override
     public Object next() {
-        if (values.length <= row) {
+        if (!this.hasNext()) {
             throw new NoSuchElementException();
         }
 
