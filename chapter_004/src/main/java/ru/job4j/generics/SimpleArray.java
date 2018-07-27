@@ -1,5 +1,7 @@
 package ru.job4j.generics;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -8,7 +10,7 @@ import java.util.NoSuchElementException;
  * @author Aleksey Sidorenko (mailto:sidorenko.aleksey@gmail.com)
  * @since 05.05.2018
  */
-public class SimpleArray<T> implements Iterable {
+class SimpleArray<T> implements Iterable<T> {
 
     private Object[] array;
     private int index = 0;
@@ -52,6 +54,21 @@ public class SimpleArray<T> implements Iterable {
      */
     public void delete(int position) {
         this.array[position] = null;
+    }
+
+    /**
+     * Get element position.
+     * @param model item.
+     * @return position.
+     */
+    public int getElementIndex(T model) {
+        if (array != null && array.length > 0) {
+            ArrayList<T> list = new ArrayList<>(Arrays.asList(model));
+            int index = list.indexOf(model);
+            list.clear();
+            return index;
+        }
+        return -1;
     }
 
     @Override
