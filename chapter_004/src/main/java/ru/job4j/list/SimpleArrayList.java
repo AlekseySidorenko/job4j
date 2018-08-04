@@ -27,7 +27,7 @@ public class SimpleArrayList<E> {
      */
     public E delete() {
         if (this.size > 0) {
-            E deletingItem = this.get(0);
+            E deletingItem = this.first.data;
             this.first = this.first.next;
             this.size--;
             return deletingItem;
