@@ -35,14 +35,14 @@ public class SimpleArrayListTest {
 
     @Test
     public void whenDeleteElementThenGetDeletedElement() {
-        assertThat(list.delete(), is(3));
+        assertThat(list.deleteLast(), is(3));
     }
 
     @Test
     public void whenDeleteAllElementsInListThenListIsEmpty() {
-        assertThat(list.delete(), is(3));
-        assertThat(list.delete(), is(2));
-        assertThat(list.delete(), is(1));
-        assertNull(list.delete());
+        assertThat(list.deleteLast(), is(3));
+        assertThat(list.deleteLast(), is(2));
+        assertThat(list.deleteLast(), is(1));
+        assertNull(list.deleteLast());
     }
 }

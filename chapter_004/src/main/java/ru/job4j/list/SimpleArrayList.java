@@ -8,16 +8,24 @@ package ru.job4j.list;
 public class SimpleArrayList<E> {
 
     private int size = 0;
-    private Node<E> first;
+    private Node<E> firstNode;
+    private Node<E> lastNode;
 
     /**
      * Add element to storage.
-     * @param data element.
+     * @param element element.
      */
-    public void add(E data) {
-        Node<E> newLink = new Node<>(data);
-        newLink.next = this.first;
-        this.first = newLink;
+    public void add(E element) {
+        Node<E> newElement;
+        if (firstNode == null) {
+            newElement = new Node<>(element);
+            firstNode = newElement;
+            lastNode = newElement;
+        } else {
+            newElement = new Node<>(lastNode, element);
+            lastNode.next = newElement;
+            lastNode = newElement;
+        }
         this.size++;
     }
 
@@ -25,10 +33,24 @@ public class SimpleArrayList<E> {
      * Delete first element from storage.
      * @return deleted element.
      */
-    public E delete() {
+    public E deleteFirst() {
         if (this.size > 0) {
-            E deletingItem = this.first.data;
-            this.first = this.first.next;
+            E deletingItem = this.firstNode.element;
+            this.firstNode = this.firstNode.next;
+            this.size--;
+            return deletingItem;
+        }
+        return null;
+    }
+
+    /**
+     * Delete last element from storage.
+     * @return deleted element.
+     */
+    public E deleteLast() {
+        if (this.size > 0) {
+            E deletingItem = this.lastNode.element;
+            this.lastNode = this.lastNode.prev;
             this.size--;
             return deletingItem;
         }
@@ -41,12 +63,12 @@ public class SimpleArrayList<E> {
      * @return element.
      */
     public E get(int index) {
-        Node<E> result = this.first;
+        Node<E> result = this.firstNode;
         if (index < size) {
             for (int i = 0; i < index; i++) {
                 result = result.next;
             }
-            return result.data;
+            return result.element;
         }
         return null;
     }
@@ -65,14 +87,23 @@ public class SimpleArrayList<E> {
      * @since 03.08.2018
      */
     private static class Node<E> {
-        E data;
         Node<E> next;
+        Node<E> prev;
+        private final E element;
 
         /**
          * Constructor.
          */
-        Node(E data) {
-            this.data = data;
+        Node(Node<E> prev, E element) {
+            this.prev = prev;
+            this.element = element;
+        }
+
+        /**
+         * Constructor.
+         */
+        Node(E element) {
+            this.element = element;
         }
     }
 }
