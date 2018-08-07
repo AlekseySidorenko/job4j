@@ -13,7 +13,7 @@ import static org.junit.Assert.assertNull;
  */
 public class UserStoreTest {
 
-    private UserStore<User> us = new UserStore(3);
+    private UserStore us = new UserStore(3);
 
     @Test
     public void whenAddUserThenUserIsInStore() {

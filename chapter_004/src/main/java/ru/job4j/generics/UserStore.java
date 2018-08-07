@@ -5,7 +5,7 @@ package ru.job4j.generics;
  * @author Aleksey Sidorenko (mailto:sidorenko.aleksey@gmail.com)
  * @since 27.07.2018
  */
-class UserStore<User> extends AbstractStore {
+class UserStore extends AbstractStore<User> {
 
     /**
      * Constructor.

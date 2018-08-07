@@ -13,7 +13,7 @@ import static org.junit.Assert.assertNull;
  */
 public class RoleStoreTest {
 
-    private RoleStore<Role> rs = new RoleStore<>(3);
+    private RoleStore rs = new RoleStore(3);
 
     @Test
     public void whenAddRoleThenRoleIsInStore() {

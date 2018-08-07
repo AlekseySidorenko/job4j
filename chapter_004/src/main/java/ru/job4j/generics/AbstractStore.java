@@ -5,7 +5,7 @@ package ru.job4j.generics;
  * @author Aleksey Sidorenko (mailto:sidorenko.aleksey@gmail.com)
  * @since 27.07.2018
  */
-public abstract class AbstractStore implements Store {
+public abstract class AbstractStore<T extends Base> implements Store<T> {
 
     private SimpleArray<Base> store;
 
@@ -31,10 +31,10 @@ public abstract class AbstractStore implements Store {
      * @return item.
      */
     @Override
-    public Base findById(String id) {
+    public T findById(String id) {
         for (Base item : store) {
             if ((item != null) && (item.getId().equals(id))) {
-                return item;
+                return (T) item;
             }
         }
         return null;

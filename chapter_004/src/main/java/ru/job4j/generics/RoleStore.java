@@ -5,7 +5,7 @@ package ru.job4j.generics;
  * @author Aleksey Sidorenko (mailto:sidorenko.aleksey@gmail.com)
  * @since 27.07.2018
  */
-class RoleStore<Role> extends AbstractStore {
+class RoleStore extends AbstractStore<Role> {
 
     /**
      * Constructor.
