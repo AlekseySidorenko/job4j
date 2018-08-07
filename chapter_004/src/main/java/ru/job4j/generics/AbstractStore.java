@@ -7,7 +7,7 @@ package ru.job4j.generics;
  */
 public abstract class AbstractStore<T extends Base> implements Store<T> {
 
-    private SimpleArray<Base> store;
+    private SimpleArray<T> store;
 
     /**
      * Constructor.
@@ -21,7 +21,7 @@ public abstract class AbstractStore<T extends Base> implements Store<T> {
      * @param model item.
      */
     @Override
-    public void add(Base model) {
+    public void add(T model) {
         store.add(model);
     }
 
@@ -32,9 +32,9 @@ public abstract class AbstractStore<T extends Base> implements Store<T> {
      */
     @Override
     public T findById(String id) {
-        for (Base item : store) {
+        for (T item : store) {
             if ((item != null) && (item.getId().equals(id))) {
-                return (T) item;
+                return item;
             }
         }
         return null;
@@ -47,7 +47,7 @@ public abstract class AbstractStore<T extends Base> implements Store<T> {
      */
     @Override
     public boolean delete(String id) {
-        for (Base item : store) {
+        for (T item : store) {
             if ((item != null) && (item.getId().equals(id))) {
                 store.delete(store.getElementIndex(item));
                 return true;
@@ -63,8 +63,8 @@ public abstract class AbstractStore<T extends Base> implements Store<T> {
      * @return true or false.
      */
     @Override
-    public boolean replace(String id, Base model) {
-        for (Base item : store) {
+    public boolean replace(String id, T model) {
+        for (T item : store) {
             if ((item != null) && (item.getId().equals(id))) {
                 store.set(store.getElementIndex(item), model);
                 return true;
