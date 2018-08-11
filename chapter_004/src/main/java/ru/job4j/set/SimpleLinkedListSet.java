@@ -1,21 +1,16 @@
 package ru.job4j.set;
 
-import ru.job4j.list.DynamicList;
+import ru.job4j.list.DynamicLinkedList;
 import java.util.Iterator;
 
 /**
- * Class SimpleSet | Task Solution: Implement Set based on array [#996]
+ * Class SimpleLinkedListSet | Task Solution: Implement Set based on LinkedList [#997]
  * @author Aleksey Sidorenko (mailto:sidorenko.aleksey@gmail.com)
  * @since 11.08.2018
  */
-public class SimpleSet<E> implements Iterable<E> {
+public class SimpleLinkedListSet<E> implements Iterable<E> {
 
-    private DynamicList<E> list = new DynamicList<>();
-
-    @Override
-    public Iterator<E> iterator() {
-        return this.list.iterator();
-    }
+    private DynamicLinkedList<E> list = new DynamicLinkedList<>();
 
     /**
      * Add element to set.
@@ -32,5 +27,10 @@ public class SimpleSet<E> implements Iterable<E> {
         if (!isPresent) {
             list.add(value);
         }
+    }
+
+    @Override
+    public Iterator<E> iterator() {
+        return this.list.iterator();
     }
 }
