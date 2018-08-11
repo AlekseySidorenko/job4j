@@ -83,7 +83,7 @@ public class DynamicList<E> implements Iterable<E> {
             @Override
             public boolean hasNext() {
 
-                return container.length > this.position;
+                return index > this.position;
             }
 
             /**
