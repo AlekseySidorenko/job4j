@@ -17,9 +17,9 @@ public class SimpleSetTest {
 
     @Test
     public void whenAddTwoSameIntegerValuesThenOnlyOneValueAdds() {
+        set.add(15);
+        set.add(15);
         Iterator iterator = set.iterator();
-        set.add(15);
-        set.add(15);
         assertThat(iterator.next(), is(15));
         assertThat(iterator.hasNext(), is(false));
     }
