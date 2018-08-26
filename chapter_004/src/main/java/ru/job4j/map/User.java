@@ -1,6 +1,7 @@
 package ru.job4j.map;
 
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 /**
  * Class User | Task Solution: Create User model [#999]
@@ -13,9 +14,9 @@ public class User {
     private int children;
     private final Calendar birthday;
 
-    public User(String name, int children, Calendar birthday) {
+    public User(String name, int children, int year, int month, int day) {
         this.name = name;
         this.children = children;
-        this.birthday = birthday;
+        this.birthday = new GregorianCalendar(year, month, day);
     }
 }
