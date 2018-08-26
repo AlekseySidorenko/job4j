@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Class UserTest | Task Solution: hashCode() only override [#1003]
+ * Class UserTest | Task Solution: equals() only override [#1004]
  * @author Aleksey Sidorenko (mailto:sidorenko.aleksey@gmail.com)
  * @since 26.08.2018
  */

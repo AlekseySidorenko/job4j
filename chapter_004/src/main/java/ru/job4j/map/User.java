@@ -5,7 +5,7 @@ import java.util.GregorianCalendar;
 import java.util.Objects;
 
 /**
- * Class User | Task Solution: hashCode() only override [#1003]
+ * Class User | Task Solution: equals() only override [#1004]
  * @author Aleksey Sidorenko (mailto:sidorenko.aleksey@gmail.com)
  * @since 19.08.2018
  */
@@ -22,7 +22,10 @@ public class User {
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(name, children);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return children == user.children && Objects.equals(name, user.name);
     }
 }
