@@ -2,9 +2,10 @@ package ru.job4j.map;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Objects;
 
 /**
- * Class User | Task Solution: Create User model [#999]
+ * Class User | Task Solution: hashCode() only override [#1003]
  * @author Aleksey Sidorenko (mailto:sidorenko.aleksey@gmail.com)
  * @since 19.08.2018
  */
@@ -18,5 +19,10 @@ public class User {
         this.name = name;
         this.children = children;
         this.birthday = new GregorianCalendar(year, month, day);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, children);
     }
 }

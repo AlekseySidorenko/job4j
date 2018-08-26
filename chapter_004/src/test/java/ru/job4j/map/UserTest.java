@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Class UserTest | Task Solution: Do not override equals() and hashCode() [#1005]
+ * Class UserTest | Task Solution: hashCode() only override [#1003]
  * @author Aleksey Sidorenko (mailto:sidorenko.aleksey@gmail.com)
  * @since 26.08.2018
  */
@@ -21,5 +21,6 @@ public class UserTest {
         map.put(ivan, "Ivan");
         map.put(fedor, "Ivan");
         System.out.println(map);
+        System.out.println("equals - " + ivan.equals(fedor));
     }
 }
