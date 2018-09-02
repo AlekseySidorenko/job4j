@@ -6,10 +6,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Class UserTest | Task Solution: equals() only override [#1004]
- * @author Aleksey Sidorenko (mailto:sidorenko.aleksey@gmail.com)
- * @since 26.08.2018
- */
+ * Class UserTest | Task Solution: equals() and hashCode() override [#1002]
+ *  * @author Aleksey Sidorenko (mailto:sidorenko.aleksey@gmail.com)
+ *  * @since 02.09.2018
+ *  */
 public class UserTest {
 
     @Test
@@ -21,6 +21,6 @@ public class UserTest {
         map.put(ivan, "Ivan");
         map.put(fedor, "Ivan");
         System.out.println(map);
-        System.out.println("equals - " + ivan.equals(fedor));
+        System.out.println("Object equals - " + ivan.equals(fedor));
     }
 }
