@@ -1,24 +1,43 @@
 package ru.job4j.map;
 
 import org.junit.Test;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
+import static org.junit.Assert.assertThat;
 
-public class ownHashMapTest {
+/**
+ * Class ownHashMapTest | Task Solution: Make own HashMap implementation [#1008]
+ * @author Aleksey Sidorenko (mailto:sidorenko.aleksey@gmail.com)
+ * @since 23.09.2018
+ */
+public class OwnHashMapTest {
+    private OwnHashMap<User, String> map = new OwnHashMap<>();
 
     @Test
-    public void userMapPrintResult() {
+    public void whenInsertPairThenGetPairValue() {
         User ivan = new User("Ivan", 1, 1985, 10, 11);
-        User fedor = new User("Fedor", 1, 1985, 10, 11);
-        User vasya = new User("Vasya", 1, 1985, 10, 11);
-
-        ownHashMap<User, String> map = new ownHashMap<>();
         map.insert(ivan, "Ivan");
-        map.insert(fedor, "FeDor");
-        System.out.println(map.get(fedor));
-        System.out.println(map.get(ivan));
+        assertThat(map.get(ivan), is("Ivan"));
+    }
 
+    @Test
+    public void whenInsertTwoPairsWithSameKeysThenGetFalseForSecondPairt() {
+        User ivan = new User("Ivan", 1, 1985, 10, 11);
+        map.insert(ivan, "Ivan");
+        assertThat(map.insert(ivan, "Ivan v2"), is(false));
+    }
 
-        for (ownHashMap.Entry<User, String> key : map) {
-            System.out.println(key);
-        }
+    @Test
+    public void whenInsertPairWithNullKeyThenGetPairValue() {
+        map.insert(null, "Ivan");
+        assertThat(map.get(null), is("Ivan"));
+    }
+
+    @Test
+    public void whenDeletePairThenThereIsNoElementInStorage() {
+        User ivan = new User("Ivan", 1, 1985, 10, 11);
+        map.insert(ivan, "Ivan");
+        map.delete(ivan);
+        assertThat(map.get(ivan), is(nullValue()));
     }
 }
