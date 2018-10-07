@@ -123,12 +123,12 @@ public class OwnHashMap<K, V> implements Iterable<OwnHashMap.Entry<K, V>> {
             }
             e = first.next;
             if (e != null) {
-                do {
+                while (e != null) {
                     if (e.hash == hash && key == e.key || (key != null && key.equals(first.key))) {
                         return e;
                     }
                     e = e.next;
-                } while (e != null);
+                }
             }
         }
         return null;
@@ -181,71 +181,39 @@ public class OwnHashMap<K, V> implements Iterable<OwnHashMap.Entry<K, V>> {
 
     @Override
     public Iterator<Entry<K, V>> iterator() {
-        return new EntryIterator() {
+        return new Iterator<Entry<K, V>>() {
+            Entry<K, V> next;
+            Entry<K, V> current;
+            int expectedModCount = modCount;
+            int index = 0;
+
+            public final boolean hasNext() {
+                return next != null;
+            }
+
+            public final Entry<K, V> next() {
+                if (table != null && size > 0) {
+                    while (index < table.length && next == null) {
+                        next = (Entry<K, V>) table[index++];
+                    }
+                }
+                Entry<K, V> e = next;
+                if (modCount != expectedModCount) {
+                    throw new ConcurrentModificationException();
+                }
+                if (e == null) {
+                    throw new NoSuchElementException();
+                }
+                current = e;
+                next = current.next;
+                if (next == null && (table != null)) {
+                    do {
+                        next = (Entry<K, V>) table[index++];
+                    } while (index < table.length && next == null);
+                }
+                return e;
+            }
         };
-    }
-
-    /**
-     * Class OwnHashMapIterator | Task Solution: Make own HashMap implementation [#1008]
-     * @author Aleksey Sidorenko (mailto:sidorenko.aleksey@gmail.com)
-     * @since 23.09.2018
-     */
-    abstract class OwnHashMapIterator implements Iterator<Entry<K, V>> {
-        Entry<K, V> next;
-        Entry<K, V> current;
-        int expectedModCount;
-        int index;
-
-        /**
-         * Constructor.
-         */
-        OwnHashMapIterator() {
-            expectedModCount = modCount;
-            index = 0;
-            if (table != null && size > 0) {
-                do {
-                    next = (Entry<K, V>) table[index++];
-                } while (index < table.length && next == null);
-            }
-        }
-
-        public final boolean hasNext() {
-            return next != null;
-        }
-
-        /**
-         * Get next entry from storage.
-         * @return next entry.
-         */
-        Entry<K, V> nextEntry() {
-            Entry<K, V> e = next;
-            if (modCount != expectedModCount) {
-                throw new ConcurrentModificationException();
-            }
-            if (e == null) {
-                throw new NoSuchElementException();
-            }
-            current = e;
-            next = current.next;
-            if (next == null && (table != null)) {
-                do {
-                    next = (Entry<K, V>) table[index++];
-                } while (index < table.length && next == null);
-            }
-            return e;
-        }
-    }
-
-    /**
-     * Class EntryIterator | Task Solution: Make own HashMap implementation [#1008]
-     * @author Aleksey Sidorenko (mailto:sidorenko.aleksey@gmail.com)
-     * @since 23.09.2018
-     */
-    public class EntryIterator extends OwnHashMapIterator implements Iterator<OwnHashMap.Entry<K, V>> {
-        @Override
-        public final Entry<K, V> next() {
-            return nextEntry();
-        }
     }
 
     /**
