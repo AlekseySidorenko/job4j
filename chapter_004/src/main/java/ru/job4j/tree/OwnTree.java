@@ -20,6 +20,23 @@ public class OwnTree<E extends Comparable<E>> implements SimpleTree<E> {
     }
 
     /**
+     * Check tree for binary.
+     * @return true if tree is binary
+     */
+    public boolean isBinary() {
+        boolean result = true;
+        Queue<Node<E>> data = new LinkedList<>();
+        data.offer(this.root);
+        for (Node<E> element : data) {
+            if (element.leaves().size() > 2) {
+                result = false;
+                break;
+            }
+        }
+        return result;
+    }
+
+    /**
      * Add child element in parent.
      * @param parent parent.
      * @param child child.
@@ -38,13 +55,13 @@ public class OwnTree<E extends Comparable<E>> implements SimpleTree<E> {
     }
 
     /**
-     * Find Node in tree by its value.
+     * Find Node in tree by it's value.
      * @param value value.
      * @return Node
      */
     @Override
     public Optional<Node<E>> findBy(E value) {
-        Optional<Node<E>> result = Optional.empty(); // пустой result
+        Optional<Node<E>> result = Optional.empty();
         Queue<Node<E>> data = new LinkedList<>();
         data.offer(this.root);
         while (!data.isEmpty()) {
@@ -61,7 +78,7 @@ public class OwnTree<E extends Comparable<E>> implements SimpleTree<E> {
     }
 
     @Override
-    public Iterator iterator() {
+    public Iterator<E> iterator() {
         return new Iterator<E>() {
             private Queue<Node<E>> elements = new LinkedList<>();
             int expectedModCount = modCount;

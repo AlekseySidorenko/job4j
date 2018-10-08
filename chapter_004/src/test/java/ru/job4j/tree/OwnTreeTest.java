@@ -44,4 +44,23 @@ public class OwnTreeTest {
         assertThat(it.next(), is(3));
         assertThat(it.hasNext(), is(false));
     }
+
+    @Test
+    public void whenTwoChildElementsInEachNodeThenTreeIsBinary() {
+        OwnTree<Integer> tree = new OwnTree<>(1);
+        tree.add(1, 2);
+        tree.add(1, 3);
+        tree.add(3, 5);
+        tree.add(3, 6);
+        assertThat(tree.isBinary(), is(true));
+    }
+
+    @Test
+    public void whenThreeChildElementsInNodeThenTreeIsNotBinary() {
+        OwnTree<Integer> tree = new OwnTree<>(1);
+        tree.add(1, 2);
+        tree.add(1, 3);
+        tree.add(1, 5);
+        assertThat(tree.isBinary(), is(false));
+    }
 }
