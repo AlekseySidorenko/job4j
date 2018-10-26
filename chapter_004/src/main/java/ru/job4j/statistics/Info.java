@@ -13,98 +13,84 @@ class Info {
     private int changed = 0;
     private int deleted = 0;
 
+    public int getAdded() {
+        return added;
+    }
+
+    public int getChanged() {
+        return changed;
+    }
+
+    public int getDeleted() {
+        return deleted;
+    }
+
     /**
      * Compare Lists.
      * @param previous List of elements.
      * @param current  Possibly modified list of elements.
+     * @return Lists compare information.
      */
-    public void compare(List<User> previous, List<User> current) {
-        checkDeletedElements(previous, current);
-        checkAddedElements(previous, current);
-        checkChangedElements(previous, current);
+    public Info compare(List<User> previous, List<User> current) {
+        changed = getDeletedElements(previous, current);
+        added = getAddedElements(previous, current);
+        deleted = getChangedElements(previous, current);
+        return this;
     }
 
     /**
      * Calculate added elements
      * @param previous List of elements.
      * @param current  Possibly modified list of elements.
+     * @return Number of added elements.
      */
-    void checkAddedElements(List<User> previous, List<User> current) {
-        boolean flag = false;
-        for (User currUser : current) {
-            for (User prevUser : previous) {
-                if ((currUser.equals(prevUser)) || (currUser.getId() == prevUser.getId())) {
-                    flag = false;
-                    break;
-                } else {
-                    flag = true;
-                }
-            }
-            if (flag) {
-                added++;
-            }
-        }
+    int getAddedElements(List<User> previous, List<User> current) {
+        return current.size() - previous.size() - this.getDeletedElements(previous, current);
     }
 
     /**
      * Calculate changed elements
      * @param previous List of elements.
      * @param current  Possibly modified list of elements.
+     * @return Number of changed elements.
      */
-    void checkChangedElements(List<User> previous, List<User> current) {
+    int getChangedElements(List<User> previous, List<User> current) {
+        int count = 0;
         for (User prevUser : previous) {
             for (User currUser : current) {
                 if (prevUser.equals(currUser)) {
                     break;
-                }
-                if (prevUser.getId() == currUser.getId()) {
-                    changed++;
+                } else if (prevUser.getId() == currUser.getId()) {
+                    count++;
                     break;
                 }
             }
         }
+        return count;
     }
 
     /**
      * Calculate deleted elements
      * @param previous List of elements.
      * @param current  Possibly modified list of elements.
+     * @return Number of deleted elements.
      */
-    void checkDeletedElements(List<User> previous, List<User> current) {
-        boolean flag = false;
+    int getDeletedElements(List<User> previous, List<User> current) {
+        int count = 0;
+        boolean isDeleted = false;
         for (User prevUser : previous) {
             for (User currUser : current) {
-                if ((prevUser.equals(currUser)) || (prevUser.getId() == currUser.getId())) {
-                    flag = false;
+                if (prevUser.getId() == currUser.getId()) {
+                    isDeleted = false;
                     break;
                 } else {
-                    flag = true;
+                    isDeleted = true;
                 }
             }
-            if (flag) {
-                deleted++;
+            if (isDeleted) {
+                count++;
             }
         }
-    }
-
-    /**
-     * Getter.
-     */
-    int getNumberOfAddedElements() {
-        return added;
-    }
-
-    /**
-     * Getter.
-     */
-    int getNumberOfChangedElements() {
-        return changed;
-    }
-
-    /**
-     * Getter.
-     */
-    int getNumberOfDeletedElements() {
-        return deleted;
+        return count;
     }
 }

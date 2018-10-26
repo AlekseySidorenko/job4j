@@ -16,13 +16,14 @@ import static org.junit.Assert.assertThat;
  */
 public class InfoTest {
 
+    Info info = new Info();
     List<User> previous = new ArrayList<>();
     List<User> current = new ArrayList<>();
     User u1 = new User(1, "Ivan");
     User u2 = new User(3, "Oleg");
     User u3 = new User(3, "Oleg2");
     User u4 = new User(4, "Sergey");
-    Info info = new Info();
+
 
     @Before
     public void init() {
@@ -34,22 +35,19 @@ public class InfoTest {
     @Test
     public void whenAddElementThenOneAddedElement() {
         current.add(u4);
-        info.checkAddedElements(previous, current);
-        assertThat(info.getNumberOfAddedElements(), is(1));
+        assertThat(info.getAddedElements(previous, current), is(1));
     }
 
     @Test
     public void whenChangeElementThenOneChangedElement() {
         current.remove(u2);
         current.add(u3);
-        info.checkChangedElements(previous, current);
-        assertThat(info.getNumberOfChangedElements(), is(1));
+        assertThat(info.getChangedElements(previous, current), is(1));
     }
 
     @Test
     public void whenDeleteOneElementThenOneDeletedElement() {
         current.remove(u1);
-        info.checkDeletedElements(previous, current);
-        assertThat(info.getNumberOfDeletedElements(), is(1));
+        assertThat(info.getDeletedElements(previous, current), is(1));
     }
 }

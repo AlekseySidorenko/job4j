@@ -16,8 +16,6 @@ public class Store {
      * @return Info Compare information.
      */
     Info diff(List<User> previous, List<User> current) {
-        Info info = new Info();
-        info.compare(previous, current);
-        return info;
+        return new Info().compare(previous, current);
     }
 }
