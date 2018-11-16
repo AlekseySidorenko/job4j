@@ -20,33 +20,17 @@ public class RectangleMove implements Runnable {
 
     @Override
     public void run() {
-        boolean x = false;
-        boolean y = false;
+        int x = 2;
+        int y = 3;
         while (true) {
-            if (x) {
-                this.rect.setX(this.rect.getX() - 2);
-                if (this.rect.getX() <= 0) {
-                    x = false;
-                }
-            } else {
-                this.rect.setX(this.rect.getX() + 2);
-                if (this.rect.getX() >= 300) {
-                    x = true;
-                }
+            if (this.rect.getX() <= 0 || this.rect.getX() >= 300) {
+                x *= -1;
             }
-
-            if (y) {
-                this.rect.setY(this.rect.getY() - 3);
-                if (this.rect.getY() <= 0) {
-                    y = false;
-                }
-            } else {
-                this.rect.setY(this.rect.getY() + 3);
-                if (this.rect.getY() >= 300) {
-                    y = true;
-                }
+            if (this.rect.getY() <= 0 || this.rect.getY() >= 300) {
+                y *= -1;
             }
-
+            this.rect.setX(this.rect.getX() + x);
+            this.rect.setY(this.rect.getY() + y);
             try {
                 Thread.sleep(50);
             } catch (InterruptedException e) {
