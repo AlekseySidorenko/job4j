@@ -22,7 +22,7 @@ public class RectangleMove implements Runnable {
     public void run() {
         int x = 2;
         int y = 3;
-        while (true) {
+        while (!Thread.currentThread().isInterrupted()) {
             if (this.rect.getX() <= 0 || this.rect.getX() >= 300) {
                 x *= -1;
             }
