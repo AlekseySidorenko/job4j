@@ -17,19 +17,19 @@ public class CalculateFunctionTest {
 
     @Test
     public void when1To5LinearFunction() {
-        List<Double> buffer = cf.linear(1, 5);
+        List<Double> buffer = cf.diapason(1, 5, Double::new);
         assertThat(buffer, is(Arrays.asList(1D, 2D, 3D, 4D, 5D)));
     }
 
     @Test
     public void when1To5QuadraticFunction() {
-        List<Double> buffer = cf.quadratic(1, 5);
+        List<Double> buffer = cf.diapason(1, 5, (i) -> Math.pow(i, 2));
         assertThat(buffer, is(Arrays.asList(1D, 4D, 9D, 16D, 25D)));
     }
 
     @Test
     public void when1To3LogFunction() {
-        List<Double> buffer = cf.log(1, 3);
+        List<Double> buffer = cf.diapason(1, 3, Math::log);
         assertThat(buffer, is(Arrays.asList(0.0, 0.6931471805599453, 1.0986122886681098)));
     }
 }
