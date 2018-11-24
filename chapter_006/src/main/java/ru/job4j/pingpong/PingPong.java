@@ -7,8 +7,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 /**
- * Class PingPong | Task Solution: Ping-pong [#1016]
- * @author Petr Arsentev (mailto:)
+ * Class PingPong | Task Solution: Implement a program flow stopping mechanism [#1019]
+ * @author @author Aleksey Sidorenko (mailto:sidorenko.aleksey@gmail.com)
  * @since 19.04.2018
  */
 public class PingPong extends Application {
@@ -22,10 +22,12 @@ public class PingPong extends Application {
         Group group = new Group();
         Rectangle rect = new Rectangle(50, 100, 10, 10);
         group.getChildren().add(rect);
-        new Thread(new RectangleMove(rect)).start();
+        Thread rectangleMove = new Thread(new RectangleMove(rect));
+        rectangleMove.start();
         stage.setScene(new Scene(group, limitX, limitY));
         stage.setTitle(JOB4J);
         stage.setResizable(false);
         stage.show();
+        stage.setOnCloseRequest((event) -> rectangleMove.interrupt());
     }
 }

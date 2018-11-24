@@ -3,7 +3,7 @@ package ru.job4j.pingpong;
 import javafx.scene.shape.Rectangle;
 
 /**
- * Class RectangleMove | Task Solution: Ping-pong [#1016]
+ * Class RectangleMove | Task Solution: Implement a program flow stopping mechanism [#1019]
  * @author Aleksey Sidorenko (mailto:sidorenko.aleksey@gmail.com)
  * @since 12.11.2018
  */
@@ -14,7 +14,7 @@ public class RectangleMove implements Runnable {
     /**
      * Constructor.
      */
-    public RectangleMove(Rectangle rect) {
+    RectangleMove(Rectangle rect) {
         this.rect = rect;
     }
 
@@ -34,7 +34,7 @@ public class RectangleMove implements Runnable {
             try {
                 Thread.sleep(50);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                Thread.currentThread().interrupt();
             }
         }
     }
