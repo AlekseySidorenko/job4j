@@ -1,11 +1,9 @@
 package ru.job4j.collections.banktransfers;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
- * Class Bank Task Solution: Bank transfers [#10038]
+ * Class Bank Task Solution: Bank transfers on Stream API [#24260]
  * @author Aleksey Sidorenko (mailto:sidorenko.aleksey@gmail.com)
  * @since 24.04.2018
  */
@@ -63,11 +61,13 @@ class Bank {
      */
     User findUserInStorage(String passport) {
         User result = null;
-        for (User user : storage.keySet()) {
-            if (user.getPassport().equals(passport)) {
-                result = user;
-                break;
-            }
+        Optional<User> optionalUser;
+        optionalUser = storage.keySet()
+                .stream()
+                .filter(user -> user.getPassport().equals(passport))
+                .findFirst();
+        if (optionalUser.isPresent()) {
+            result = optionalUser.get();
         }
         return result;
     }
@@ -79,14 +79,14 @@ class Bank {
      */
     Account findAccountInStorage(String requisites) {
         Account result = null;
-        for (User user : storage.keySet()) {
-            ArrayList<Account> list = this.storage.get(user);
-            for (Account account : list) {
-                if (account.getRequisites().equals(requisites)) {
-                    result = account;
-                    break;
-                }
-            }
+        Optional<Account> optionalAccount;
+        List<Account> accountsList = new ArrayList<>();
+        this.storage.forEach((user, accounts) -> accountsList.addAll(accounts));
+        optionalAccount = accountsList.stream()
+                .filter(account -> account.getRequisites().equals(requisites))
+                .findFirst();
+        if (optionalAccount.isPresent()) {
+            result = optionalAccount.get();
         }
         return result;
     }
@@ -100,8 +100,10 @@ class Bank {
      * @param amount amount.
      * @return validated (true) or not validated (false)
      */
-    private boolean transferValidate(String srcPassport, String srcRequisites,
-                                     String destPassport, String destRequisites,
+    private boolean transferValidate(String srcPassport,
+                                     String srcRequisites,
+                                     String destPassport,
+                                     String destRequisites,
                                      double amount) {
         boolean result = false;
         User srcUser = findUserInStorage(srcPassport);
@@ -109,14 +111,13 @@ class Bank {
         User destUser = findUserInStorage(destPassport);
         Account destAccount = findAccountInStorage(destRequisites);
         if ((srcUser != null)
-                 && (srcAccount != null)
-                 && (destUser != null)
-                 && (destAccount != null)) {
-            if (storage.get(srcUser).contains(srcAccount)
-                    && storage.get(destUser).contains(destAccount)
-                    && (srcAccount.getValue() >= amount)) {
-                result = true;
-            }
+                && (srcAccount != null)
+                && (destUser != null)
+                && (destAccount != null)
+                && (storage.get(srcUser).contains(srcAccount))
+                && (storage.get(destUser).contains(destAccount))
+                && (srcAccount.getValue() >= amount)) {
+            result = true;
         }
         return result;
     }
@@ -134,13 +135,18 @@ class Bank {
                                  String destPassport, String destRequisites,
                                  double amount) {
         boolean result = false;
-        if (transferValidate(srcPassport, srcRequisites,
-                             destPassport, destRequisites, amount)) {
+        if (transferValidate(srcPassport,
+                             srcRequisites,
+                             destPassport,
+                             destRequisites,
+                             amount)) {
             Account srcAccount = findAccountInStorage(srcRequisites);
             Account destAccount = findAccountInStorage(destRequisites);
-            srcAccount.setValue(srcAccount.getValue() - amount);
-            destAccount.setValue(destAccount.getValue() + amount);
-            result = true;
+            if ((srcAccount != null) && (destAccount != null)) {
+                srcAccount.setValue(srcAccount.getValue() - amount);
+                destAccount.setValue(destAccount.getValue() + amount);
+                result = true;
+            }
         }
         return result;
     }

@@ -3,7 +3,12 @@ package ru.job4j.collections.banktransfers;
 import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+
 import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.Is.isA;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -19,8 +24,20 @@ public class BankTest {
         Bank bank = new Bank();
         User user = new User("Oleg", "1234");
         bank.addUser(user);
-        User expected = user;
         User result = bank.findUserInStorage(user.getPassport());
+        assertThat(result, is(user));
+    }
+
+    /**
+     * Test findUserInStorage.
+     */
+    @Test
+    public void whenFindNonexistentUserThenUserIsNotFound() {
+        Bank bank = new Bank();
+        User user = new User("Oleg", "1");
+        bank.addUser(user);
+        User expected = null;
+        User result = bank.findUserInStorage("2");
         assertThat(result, is(expected));
     }
 
@@ -31,11 +48,11 @@ public class BankTest {
     public void whenDeleteUserThenUserIsNotInStorage() {
         Bank bank = new Bank();
         User user = new User("Oleg", "1234");
+        User result;
         bank.addUser(user);
         bank.deleteUser(user);
-        User expected = null;
-        User result = bank.findUserInStorage(user.getPassport());
-        assertThat(result, is(expected));
+        result = bank.findUserInStorage(user.getPassport());
+        assertNull(result);
     }
 
     /**
@@ -49,9 +66,21 @@ public class BankTest {
         bank.addUser(user);
         bank.addAccount(user, account);
         List<Account> list = bank.getUserAccounts(user);
-        Account expected = account;
         Account result = list.get(list.indexOf(account));
-        assertThat(result, is(expected));
+        assertThat(result, is(account));
+    }
+
+    /**
+     * Test findAccountInStorage.
+     */
+    @Test
+    public void whenFindNoneAddedAccountThenAccountIsNotFound() {
+        Bank bank = new Bank();
+        User user = new User("Oleg", "1234");
+        Account account = new Account(150, "1234");
+        bank.addUser(user);
+        boolean result = bank.getUserAccounts(user).contains(account);
+        assertThat(result, is(false));
     }
 
     /**
@@ -66,9 +95,8 @@ public class BankTest {
         bank.addAccount(user, account);
         bank.deleteAccount(user, account);
         List<Account> list = bank.getUserAccounts(user);
-        boolean expected = false;
         boolean result = list.contains(account);
-        assertThat(result, is(expected));
+        assertThat(result, is(false));
     }
 
     /**
@@ -96,8 +124,7 @@ public class BankTest {
         User user = new User("Oleg", "1234");
         bank.addUser(user);
         User expected = bank.findUserInStorage("1234");
-        User result = user;
-        assertThat(expected, is(result));
+        assertThat(expected, is(user));
     }
 
     /**
@@ -111,8 +138,7 @@ public class BankTest {
         bank.addUser(user);
         bank.addAccount(user, account);
         Account expected = bank.findAccountInStorage("12345");
-        Account result = account;
-        assertThat(expected, is(result));
+        assertThat(expected, is(account));
     }
 
     /**
@@ -129,9 +155,8 @@ public class BankTest {
         bank.addUser(user2);
         bank.addAccount(user1, account1);
         bank.addAccount(user2, account2);
-        boolean expected = true;
         boolean result = bank.transferMoney("2", "21", "7", "71", 50);
-        assertThat(result, is(expected));
+        assertThat(result, is(true));
     }
 
     /**
@@ -148,8 +173,7 @@ public class BankTest {
         bank.addUser(user2);
         bank.addAccount(user1, account1);
         bank.addAccount(user2, account2);
-        boolean expected = false;
         boolean result = bank.transferMoney("21234", "21", "7", "71", 50);
-        assertThat(result, is(expected));
+        assertThat(result, is(false));
     }
 }
