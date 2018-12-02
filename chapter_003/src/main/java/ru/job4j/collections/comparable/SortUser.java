@@ -15,9 +15,7 @@ public class SortUser {
      * @return TreeSet пользователей, отсортированных по возрасту в порядке возрастания.
      */
     public Set<User> sort(List<User> list) {
-        Set<User> result = new TreeSet<>();
-        result.addAll(list);
-        return result;
+        return new TreeSet<>(list);
     }
 
     /**
@@ -26,12 +24,7 @@ public class SortUser {
      * @return ArrayList пользователей, отсортированных по длине имени.
      */
     public List<User> sortByNameLength(List<User> list) {
-        list.sort(new Comparator<User>() {
-            @Override
-            public int compare(User left, User right) {
-                return Integer.compare(left.name.length(), right.name.length());
-            }
-        });
+        list.sort(Comparator.comparingInt(left -> left.name.length()));
         return list;
     }
 
@@ -41,13 +34,7 @@ public class SortUser {
      * @return ArrayList пользователей, отсортированных по всем полям в порядке возрастания.
      */
     public List<User> sortByAllFields(List<User> list) {
-        list.sort(new Comparator<User>() {
-            @Override
-            public int compare(User left, User right) {
-                int nameCompare = left.name.compareTo(right.name);
-                return nameCompare != 0 ? nameCompare : Integer.compare(left.age, right.age);
-            }
-        });
+        list.sort(Comparator.comparing((User left) -> left.name).thenComparingInt(left -> left.age));
         return list;
     }
 }

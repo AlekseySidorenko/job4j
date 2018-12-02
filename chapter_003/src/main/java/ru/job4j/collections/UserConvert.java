@@ -15,10 +15,8 @@ public class UserConvert {
      * @return Map с пользователями по ключу Integer id.
      */
     public HashMap<Integer, User> process(List<User> list) {
-        HashMap<Integer, User> result = new HashMap(list.size());
-        for (User user : list) {
-            result.put(user.getId(), user);
-        }
+        HashMap<Integer, User> result = new HashMap();
+        list.forEach(u -> result.put(u.getId(), u));
         return result;
     }
 }

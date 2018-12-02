@@ -1,7 +1,9 @@
 package ru.job4j.collections;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Class ConvertList Решение задачи Конвертация двумерного массива в ArrayList и наоборот. [#10035]
@@ -17,11 +19,14 @@ public class ConvertList {
      */
     public static List<Integer> toList(int[][] array) {
         List<Integer> result = new ArrayList<>();
-        for (int[] i : array) {
+        Arrays.stream(array).flatMapToInt(Arrays::stream).forEach(result::add);
+
+        /*for (int[] i : array) {
             for (int j : i) {
                 result.add(j);
             }
-        }
+        }*/
+
         return result;
     }
 
@@ -61,11 +66,14 @@ public class ConvertList {
      */
     public static List<Integer> convert(List<int[]> list) {
         List<Integer> result = new ArrayList<>();
-        for (int[] array : list) {
+        list.stream().flatMapToInt(Arrays::stream).forEach(result::add);
+
+        /*for (int[] array : list) {
             for (int i : array) {
                 result.add(i);
             }
-        }
+        }*/
+
         return result;
     }
 }
