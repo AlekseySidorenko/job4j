@@ -14,7 +14,6 @@ import static org.junit.Assert.assertThat;
  */
 public class BoardTest {
 
-
     @Test
     public void whenFigureTriesMoveRightWayThenMoveFigure() throws
             ImpossibleMoveException, OccupiedWayException, FigureNotFoundException {
