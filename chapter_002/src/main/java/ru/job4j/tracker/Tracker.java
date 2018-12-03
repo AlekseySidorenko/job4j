@@ -2,7 +2,9 @@ package ru.job4j.tracker;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 /**
  * Class Tracker Реализовать класс Tracker [#396]
@@ -66,14 +68,14 @@ public class Tracker {
      * @return Список найденных заявок.
      */
     public List<Item> findByName(String key) {
-        List<Item> result = new ArrayList<>();
-        // создаем массив с найденными элементами
-        for (Item item : items) {
+
+        /*for (Item item : items) {
             if ((item.getName().equals(key))) {
                 result.add(item);
             }
-        }
-        return result;
+        }*/
+
+        return items.stream().filter(item -> (item.getName().equals(key))).collect(Collectors.toList());
     }
 
     /**
@@ -83,11 +85,17 @@ public class Tracker {
      */
     public Item findById(String id) {
         Item result = null;
-        for (Item item : items) {
+        Optional<Item> optionalItem = items.stream().filter(item -> (item.getId().equals(id))).findFirst();
+        if (optionalItem.isPresent()) {
+            result = optionalItem.get();
+        }
+
+        /*for (Item item : items) {
             if ((item != null) && (item.getId().equals(id))) {
                 result = item;
             }
-        }
+        }*/
+
         return result;
     }
 
