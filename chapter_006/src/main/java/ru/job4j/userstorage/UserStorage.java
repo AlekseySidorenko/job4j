@@ -22,7 +22,7 @@ public class UserStorage {
      * @param user user.
      * @return true if user was added.
      */
-    synchronized boolean add(User user) {
+    public synchronized boolean add(User user) {
         return users.add(user);
     }
 
@@ -31,7 +31,7 @@ public class UserStorage {
      * @param user user.
      * @return true if user was deleted.
      */
-    synchronized boolean delete(User user) {
+    public synchronized boolean delete(User user) {
         boolean result = false;
         if (users.contains(user)) {
             users.remove(user);
@@ -46,7 +46,7 @@ public class UserStorage {
      * @param amount new amount
      * @return true if user was updated.
      */
-    synchronized boolean update(User user, int amount) {
+    public synchronized boolean update(User user, int amount) {
         boolean result = false;
         if (users.contains(user)) {
             user.setAmount(user.getAmount() + amount);
@@ -62,7 +62,7 @@ public class UserStorage {
      * @param amount amount
      * @return true if transfer is ok.
      */
-    synchronized boolean transfer(int fromId, int toId, int amount) {
+    public synchronized boolean transfer(int fromId, int toId, int amount) {
         User sourceUser = null;
         User targetUser = null;
         boolean result = false;
