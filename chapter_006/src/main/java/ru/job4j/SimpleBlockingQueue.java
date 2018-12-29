@@ -53,4 +53,14 @@ public class SimpleBlockingQueue<T> {
             return queue.poll();
         }
     }
+
+    /**
+     * Check is queue empty.
+     * @return result.
+     */
+    public boolean isEmpty() {
+        synchronized (queue) {
+            return queue.isEmpty();
+        }
+    }
 }
