@@ -45,14 +45,12 @@ public class SimpleBlockingQueue<T> {
      * @return element.
      */
     public T poll() throws InterruptedException {
-        T result;
         synchronized (queue) {
             while (queue.isEmpty()) {
                 queue.wait();
             }
-            result = queue.poll();
             queue.notify();
+            return queue.poll();
         }
-        return result;
     }
 }
