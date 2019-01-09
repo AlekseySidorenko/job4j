@@ -23,7 +23,7 @@ public class SimpleBlockingQueue<T> {
         this.size = queueSize;
     }
 
-    @GuardedBy("this")
+    @GuardedBy("queue")
     private final Queue<T> queue = new LinkedList<>();
 
     /**

@@ -8,6 +8,11 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 
+/**
+ * Class SimpleBlockingQueueTest | Task Solution: Implementation of JUnit test for blocking queue [#68589]
+ * @author @author Aleksey Sidorenko (mailto:sidorenko.aleksey@gmail.com)
+ * @since 29.12.2018
+ */
 public class SimpleBlockingQueueTest2 {
 
     @Test
