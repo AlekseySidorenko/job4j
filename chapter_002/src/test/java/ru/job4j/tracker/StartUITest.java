@@ -5,6 +5,8 @@ import org.junit.Before;
 import org.junit.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+
+import static org.junit.Assert.assertNull;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -57,12 +59,14 @@ public class StartUITest {
         System.setOut(stdout);
     }
 
+    Tracker tracker = Tracker.getInstance();
+
     /**
      * Test createItems.
      */
     @Test
     public void whenUserAddItemThenTrackerHasNewItemWithSameName() {
-        Tracker tracker = new Tracker();
+        tracker.dropItems();
         // создаём StubInput с последовательностью действий
         Input input = new StubInput(new String[]{"0", "test name", "desc", "6"});
         // создаём StartUI и вызываем метод init()
@@ -76,7 +80,7 @@ public class StartUITest {
      */
     @Test
     public void whenUpdateThenTrackerHasUpdatedValue() {
-        Tracker tracker = new Tracker();
+        tracker.dropItems();
         Item item = tracker.add(new Item("Name", "desc", 123L));
         Input input = new StubInput(new String[]{"2", item.getId(), "test name", "desc", "6"});
         new StartUI(input, tracker).init();
@@ -88,11 +92,11 @@ public class StartUITest {
      */
     @Test
     public void whenDeleteThenTrackerHasNoDeletedItem() {
-        Tracker tracker = new Tracker();
+        tracker.dropItems();
         Item item = tracker.add(new Item("Name", "desc", 123L));
         Input input = new StubInput(new String[]{"3", item.getId(), "6"});
         new StartUI(input, tracker).init();
-        assertThat(tracker.findById(item.getId()), is((Item) null));
+        assertNull(tracker.findById(item.getId()));
     }
 
     /**
@@ -100,7 +104,7 @@ public class StartUITest {
      */
     @Test
     public void whenAddTwoItemsThenShowTwoItems() {
-        Tracker tracker = new Tracker();
+        tracker.dropItems();
         Item item1 = new Item("Name", "desc", 123L);
         Item item2 = new Item("Name 2", "desc", 123L);
         tracker.add(item1);
@@ -125,7 +129,7 @@ public class StartUITest {
      */
     @Test
     public void whenAddOneItemThenShowItemById() {
-        Tracker tracker = new Tracker();
+        tracker.dropItems();
         Item item1 = new Item("Name", "desc", 123L);
         tracker.add(item1);
         Input input = new StubInput(new String[]{"4", item1.getId(), "6"});
@@ -143,7 +147,7 @@ public class StartUITest {
      */
     @Test
     public void whenAddOneItemThenShowItemByName() {
-        Tracker tracker = new Tracker();
+        tracker.dropItems();
         Item item1 = new Item("Name", "desc", 123L);
         tracker.add(item1);
         Input input = new StubInput(new String[]{"5", item1.getName(), "6"});

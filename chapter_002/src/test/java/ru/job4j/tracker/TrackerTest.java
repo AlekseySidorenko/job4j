@@ -15,12 +15,24 @@ import static org.junit.Assert.assertThat;
  * @since 04.12.2017
  */
 public class TrackerTest {
+
+    Tracker tracker = Tracker.getInstance();
+
+    /**
+     * Test tracker singleton.
+     */
+    @Test
+    public void whenTryToGetNewTrackerThenReturnOnlyOneTracker() {
+        Tracker trackerTwo = Tracker.getInstance();
+        assertThat(tracker, is(trackerTwo));
+    }
+
     /**
      * Test add.
      */
     @Test
     public void whenAddItemThenReturnAddedItem() {
-        Tracker tracker = new Tracker();
+        tracker.dropItems();
         Item item = new Item("test", "Description", 1L);
         tracker.add(item);
         assertThat(tracker.findById(item.getId()), is(item));
@@ -31,7 +43,7 @@ public class TrackerTest {
      */
     @Test
     public void whenUpdateItemNameThenReturnNewItemName() {
-        Tracker tracker = new Tracker();
+        tracker.dropItems();
         Item previous = new Item("test1", "testDescription", 123L);
         tracker.add(previous);
         Item next = new Item("test2", "testDescription2", 1234L);
@@ -45,7 +57,7 @@ public class TrackerTest {
      */
     @Test
     public void whenDeleteItemThenItemsHasNoItem() {
-        Tracker tracker = new Tracker();
+        tracker.dropItems();
         Item firstItem = new Item("firstItem", "testDescription", 123L);
         tracker.add(firstItem);
         Item secondItem = new Item("secondItem", "testDescription", 123L);
@@ -59,7 +71,7 @@ public class TrackerTest {
      */
     @Test
     public void whenAddThreeItemThenItemsHasThreeItem() {
-        Tracker tracker = new Tracker();
+        tracker.dropItems();
         Item firstItem = new Item("firstItem", "testDescription", 123L);
         tracker.add(firstItem);
         Item secondItem = new Item("secondItem", "testDescription", 123L);
@@ -78,7 +90,7 @@ public class TrackerTest {
      */
     @Test
     public void whenAddTwoItemWithSameNameAndThirdItemThenFindTwoItemByName() {
-        Tracker tracker = new Tracker();
+        tracker.dropItems();
         Item firstItem = new Item("TestItem", "testDescription1", 1231L);
         tracker.add(firstItem);
         Item secondItem = new Item("TestItem", "testDescription2", 1232L);
@@ -96,7 +108,7 @@ public class TrackerTest {
      */
     @Test
     public void whenAddTwoItemThenFindTwoItemById() {
-        Tracker tracker = new Tracker();
+        tracker.dropItems();
         Item firstItem = new Item("firstItem", "testDescription1", 1231L);
         tracker.add(firstItem);
         Item secondItem = new Item("secondItem", "testDescription2", 1232L);

@@ -14,6 +14,17 @@ import java.util.stream.Collectors;
 public class Tracker {
     private List<Item> items = new ArrayList<>();
     private static final Random RN = new Random();
+    private static Tracker instance;
+
+    private Tracker() {
+    }
+
+    public static synchronized Tracker getInstance() {
+        if (instance == null) {
+            instance = new Tracker();
+        }
+        return instance;
+    }
 
     /**
      * Метод реализует добавление заявок.
@@ -24,6 +35,13 @@ public class Tracker {
         item.setId(this.generatedId());
         this.items.add(item);
         return item;
+    }
+
+    /**
+     * Clear tracker storage.
+     */
+    public void dropItems() {
+        items.clear();
     }
 
     /**
