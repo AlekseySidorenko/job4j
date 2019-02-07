@@ -26,3 +26,6 @@ target
 *.iml
 classes
 checkstyle_old.xml
+.settings
+.classpath
+.project

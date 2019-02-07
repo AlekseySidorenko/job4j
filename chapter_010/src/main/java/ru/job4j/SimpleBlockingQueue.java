@@ -19,7 +19,7 @@ public class SimpleBlockingQueue<T> {
     /**
      * Constructor.
      */
-    SimpleBlockingQueue(int queueSize) {
+    public SimpleBlockingQueue(int queueSize) {
         this.size = queueSize;
     }
 
