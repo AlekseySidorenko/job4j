@@ -1,6 +1,7 @@
 package ru.job4j.io;
 
 import java.io.*;
+import java.util.Arrays;
 
 /**
  * Class AbuseWordsRemover | Task Solution: Removing abuse words [#859]
@@ -20,16 +21,17 @@ public class AbuseWordsRemover {
 
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
              BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(out))) {
-            String str;
 
-            while ((str = bufferedReader.readLine()) != null) {
-                for (String s : abuse) {
-                    if (str.contains(s)) {
-                        str = str.replaceAll(s, "");
-                    }
-                }
-                bufferedWriter.write(str);
-            }
+            bufferedReader.lines()
+                    .map(s -> Arrays.stream(abuse)
+                    .reduce(s, (s1, s2) -> s1.replaceAll(s2, "")))
+                    .forEach(filteredLine -> {
+                        try {
+                            bufferedWriter.write(filteredLine);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    });
         } catch (IOException e) {
             e.printStackTrace();
         }
