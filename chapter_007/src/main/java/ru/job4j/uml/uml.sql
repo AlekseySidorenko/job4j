@@ -1,43 +1,43 @@
-          CREATE TABLE rules (
-            id          SERIAL PRIMARY KEY,
-            name        VARCHAR(50),
-            description VARCHAR(200)
-          );
+CREATE TABLE rules (
+  id          SERIAL PRIMARY KEY,
+  name        VARCHAR(50),
+  description VARCHAR(200)
+);
 
-          CREATE TABLE roles (
-            id          SERIAL PRIMARY KEY,
-            name        VARCHAR(50),
-            description VARCHAR(200),
-            rule_id     INT REFERENCES rules(id)
-          );
+CREATE TABLE roles (
+  id          SERIAL PRIMARY KEY,
+  name        VARCHAR(50),
+  description VARCHAR(200),
+  rule_id     INT REFERENCES rules(id)
+);
 
-          CREATE TABLE users (
-            id          SERIAL PRIMARY KEY,
-            name        VARCHAR(120),
-            login       VARCHAR(30),
-            password    VARCHAR(30),
-            role_id     INT REFERENCES roles(id)
-          );
+CREATE TABLE users (
+  id          SERIAL PRIMARY KEY,
+  name        VARCHAR(120),
+  login       VARCHAR(30),
+  password    VARCHAR(30),
+  role_id     INT REFERENCES roles(id)
+);
 
-          CREATE TABLE requests_states (
-            id          SERIAL PRIMARY KEY,
-            name        VARCHAR(50),
-            description VARCHAR(200)
-          );
+CREATE TABLE requests_states (
+  id          SERIAL PRIMARY KEY,
+  name        VARCHAR(50),
+  description VARCHAR(200)
+);
 
-          CREATE TABLE requests_categories (
-            id          SERIAL PRIMARY KEY,
-            name        VARCHAR(50),
-            description VARCHAR(200)
-          );
+CREATE TABLE requests_categories (
+  id          SERIAL PRIMARY KEY,
+  name        VARCHAR(50),
+  description VARCHAR(200)
+);
 
-          CREATE TABLE requests (
-            id            SERIAL PRIMARY KEY,
-            name          VARCHAR(100),
-            user_id       INT REFERENCES users(id),
-            state_id      INT REFERENCES requests_states(id),
-            category_id   INT REFERENCES requests_categories
-          );
+CREATE TABLE requests (
+  id            SERIAL PRIMARY KEY,
+  name          VARCHAR(100),
+  user_id       INT REFERENCES users(id),
+  state_id      INT REFERENCES requests_states(id),
+  category_id   INT REFERENCES requests_categories
+);
 
 CREATE TABLE requests_files (
   id           SERIAL PRIMARY KEY,
