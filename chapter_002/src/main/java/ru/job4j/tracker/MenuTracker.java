@@ -11,7 +11,7 @@ import java.util.List;
 public class MenuTracker {
 
     private Input input;
-    private Tracker tracker;
+    private ITracker tracker;
     private List<UserAction> actions = new ArrayList<>();
 
     /**
@@ -24,7 +24,7 @@ public class MenuTracker {
     /**
      * Конструктор.
      */
-    public MenuTracker(Input input, Tracker tracker) {
+    public MenuTracker(Input input, ITracker tracker) {
         this.input = input;
         this.tracker = tracker;
     }
@@ -70,12 +70,11 @@ public class MenuTracker {
         }
 
         @Override
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, ITracker tracker) {
             System.out.println("------------ Adding new task ------------");
             String name = input.ask("Enter task name: ");
             String desc = input.ask("Enter task description: ");
-            long create = System.currentTimeMillis();
-            Item item = new Item(name, desc, create);
+            Item item = new Item(name, desc);
             tracker.add(item);
             System.out.println();
             System.out.println("------------ New task ------------");
@@ -95,7 +94,7 @@ public class MenuTracker {
         }
 
         @Override
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, ITracker tracker) {
             System.out.println("------------ Showing all tasks ------------");
             for (Item item : tracker.findAll()) {
                 tracker.showItemById(item.getId());
@@ -116,8 +115,9 @@ public class MenuTracker {
         }
 
         @Override
-        public void execute(Input input, Tracker tracker) {
-            Item deletingItem = tracker.findById(input.ask("Enter deleting item id: "));
+        public void execute(Input input, ITracker tracker) {
+            long id = Long.parseLong(input.ask("Enter deleting item id: "));
+            Item deletingItem = tracker.findById(id);
             System.out.println("------------ Deleting task with id " + deletingItem.getId() + "------------");
             tracker.delete(deletingItem);
         }
@@ -135,8 +135,9 @@ public class MenuTracker {
         }
 
         @Override
-        public void execute(Input input, Tracker tracker) {
-            tracker.showItemById(input.ask("Enter finding item id: "));
+        public void execute(Input input, ITracker tracker) {
+            long id = Long.parseLong(input.ask("Enter finding item id: "));
+            tracker.showItemById(id);
         }
     }
 
@@ -152,7 +153,7 @@ public class MenuTracker {
         }
 
         @Override
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, ITracker tracker) {
             List<Item> result = new ArrayList<>();
             result.addAll(tracker.findByName(input.ask("Enter finding item (items) name: ")));
             for (Item item : result) {
@@ -174,7 +175,7 @@ public class MenuTracker {
         }
 
         @Override
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, ITracker tracker) {
         }
     }
 
@@ -190,8 +191,9 @@ public class MenuTracker {
         }
 
         @Override
-        public void execute(Input input, Tracker tracker) {
-            Item editingItem = tracker.findById(input.ask("Enter editing item's id: "));
+        public void execute(Input input, ITracker tracker) {
+            long id = Long.parseLong(input.ask("Enter editing item's id: "));
+            Item editingItem = tracker.findById(id);
             System.out.println("------------ Updating task with id " + editingItem.getId() + "------------");
             editingItem.setName(input.ask("Enter new task's name: "));
             editingItem.setDesc(input.ask("Enter new task's description: "));

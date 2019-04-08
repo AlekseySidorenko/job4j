@@ -1,9 +1,6 @@
 package ru.job4j.tracker;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -11,9 +8,8 @@ import java.util.stream.Collectors;
  * @author Aleksey Sidorenko (mailto:sidorenko.aleksey@gmail.com)
  * @since 04.12.2017
  */
-public class Tracker {
+public class Tracker implements ITracker {
     private List<Item> items = new ArrayList<>();
-    private static final Random RN = new Random();
     private static Tracker instance;
 
     private Tracker() {
@@ -32,7 +28,6 @@ public class Tracker {
      * @return Добавленная заявка.
      */
     public Item add(Item item) {
-        item.setId(this.generatedId());
         this.items.add(item);
         return item;
     }
@@ -45,14 +40,6 @@ public class Tracker {
     }
 
     /**
-     * Метод генерирует уникальный id для заявки.
-     * @return id.
-     */
-    private String generatedId() {
-        return String.valueOf(System.currentTimeMillis() + RN.nextInt());
-    }
-
-    /**
      * Метод реализует редактирование заявок.
      * @param item отредактированная заявка.
      */
@@ -60,7 +47,6 @@ public class Tracker {
         Item updatingItem = this.findById(item.getId());
         updatingItem.setName(item.getName());
         updatingItem.setDesc(item.getDesc());
-        updatingItem.setCreate(item.getCreate());
         updatingItem.setComments(item.getComments());
     }
 
@@ -86,13 +72,6 @@ public class Tracker {
      * @return Список найденных заявок.
      */
     public List<Item> findByName(String key) {
-
-        /*for (Item item : items) {
-            if ((item.getName().equals(key))) {
-                result.add(item);
-            }
-        }*/
-
         return items.stream().filter(item -> (item.getName().equals(key))).collect(Collectors.toList());
     }
 
@@ -101,19 +80,12 @@ public class Tracker {
      * @param id id заявки.
      * @return Найденный элемент.
      */
-    public Item findById(String id) {
+    public Item findById(long id) {
         Item result = null;
-        Optional<Item> optionalItem = items.stream().filter(item -> (item.getId().equals(id))).findFirst();
+        Optional<Item> optionalItem = items.stream().filter(item -> (item.getId() == id)).findFirst();
         if (optionalItem.isPresent()) {
             result = optionalItem.get();
         }
-
-        /*for (Item item : items) {
-            if ((item != null) && (item.getId().equals(id))) {
-                result = item;
-            }
-        }*/
-
         return result;
     }
 
@@ -121,19 +93,17 @@ public class Tracker {
      * Метод выводит заявку на экран.
      * @param id id заявки.
      */
-    public void showItemById(String id) {
+    public void showItemById(long id) {
         Item item = this.findById(id);
 
         System.out.println("Name:    " + item.getName());
         System.out.println("Id:      " + item.getId());
         System.out.println("Desc:    " + item.getDesc());
-        System.out.println("Created: " + item.getCreate());
+        System.out.println("Created: " + item.getCreateDate());
         if (item.getComments() != null) {
             String[] comments = item.getComments();
             System.out.println("Comments for this item:");
-            for (String comment : comments) {
-                System.out.println(comment);
-            }
+            Arrays.stream(comments).forEach(System.out::println);
         }
     }
 }

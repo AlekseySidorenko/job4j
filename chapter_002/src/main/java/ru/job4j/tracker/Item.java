@@ -1,24 +1,25 @@
 package ru.job4j.tracker;
 
+import java.util.Random;
+
 /**
  * Class Item 2. Реализовать класс Tracker [#396]
  * @author Aleksey Sidorenko (mailto:sidorenko.aleksey@gmail.com)
  * @since 04.12.2017
  */
-public class Item {
-    private String id;
+public class Item implements Comparable<Item> {
+    private long id;
     private String name;
     private String desc;
     private String[] comments;
-    private long create;
+    private long createDate;
+    private static final Random RN = new Random();
 
-    /**
-     * Конструктор.
-     */
-    public Item(String name, String desc, long create) {
+    public Item(String name, String desc) {
+        this.id = System.currentTimeMillis() + RN.nextInt();
         this.name = name;
         this.desc = desc;
-        this.create = create;
+        this.createDate = System.currentTimeMillis();
     }
 
     /**
@@ -41,8 +42,8 @@ public class Item {
      * Getter.
      * @return create.
      */
-    public long getCreate() {
-        return this.create;
+    public long getCreateDate() {
+        return this.createDate;
     }
 
     /**
@@ -57,7 +58,7 @@ public class Item {
      * Getter.
      * @return id.
      */
-    public String getId() {
+    public long getId() {
         return this.id;
     }
 
@@ -79,14 +80,6 @@ public class Item {
 
     /**
      * Setter.
-     * @param create create.
-     */
-    public void setCreate(long create) {
-        this.create = create;
-    }
-
-    /**
-     * Setter.
      * @param comments comments.
      */
     public void setComments(String[] comments) {
@@ -97,7 +90,16 @@ public class Item {
      * Setter.
      * @param id id.
      */
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
+    }
+
+    public void setCreateDate(long createDate) {
+        this.createDate = createDate;
+    }
+
+    @Override
+    public int compareTo(Item o) {
+        return (int) (this.getId() - o.getId());
     }
 }

@@ -18,7 +18,7 @@ public interface UserAction {
      * @param input Способ ввода данных.
      * @param tracker Экземпляр хранилища заявокю
      */
-    void execute(Input input, Tracker tracker);
+    void execute(Input input, ITracker tracker);
 
     /**
      * Метод формирует порядковый номер и описание действия в меню пользователя.

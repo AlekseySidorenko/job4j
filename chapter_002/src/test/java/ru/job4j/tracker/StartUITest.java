@@ -43,7 +43,7 @@ public class StartUITest {
                 .append("Name:    " + item.getName()).append(separator)
                 .append("Id:      " + item.getId()).append(separator)
                 .append("Desc:    " + item.getDesc()).append(separator)
-                .append("Created: " + item.getCreate()).append(separator)
+                .append("Created: " + item.getCreateDate()).append(separator)
                 .toString();
     }
 
@@ -81,8 +81,8 @@ public class StartUITest {
     @Test
     public void whenUpdateThenTrackerHasUpdatedValue() {
         tracker.dropItems();
-        Item item = tracker.add(new Item("Name", "desc", 123L));
-        Input input = new StubInput(new String[]{"2", item.getId(), "test name", "desc", "6"});
+        Item item = tracker.add(new Item("Name", "desc"));
+        Input input = new StubInput(new String[]{"2", Long.toString(item.getId()), "test name", "desc", "6"});
         new StartUI(input, tracker).init();
         assertThat(tracker.findById(item.getId()).getName(), is("test name"));
     }
@@ -93,8 +93,8 @@ public class StartUITest {
     @Test
     public void whenDeleteThenTrackerHasNoDeletedItem() {
         tracker.dropItems();
-        Item item = tracker.add(new Item("Name", "desc", 123L));
-        Input input = new StubInput(new String[]{"3", item.getId(), "6"});
+        Item item = tracker.add(new Item("Name", "desc"));
+        Input input = new StubInput(new String[]{"3", Long.toString(item.getId()), "6"});
         new StartUI(input, tracker).init();
         assertNull(tracker.findById(item.getId()));
     }
@@ -105,8 +105,8 @@ public class StartUITest {
     @Test
     public void whenAddTwoItemsThenShowTwoItems() {
         tracker.dropItems();
-        Item item1 = new Item("Name", "desc", 123L);
-        Item item2 = new Item("Name 2", "desc", 123L);
+        Item item1 = new Item("Name", "desc");
+        Item item2 = new Item("Name 2", "desc");
         tracker.add(item1);
         tracker.add(item2);
         Input input = new StubInput(new String[]{"1", "6"});
@@ -130,9 +130,9 @@ public class StartUITest {
     @Test
     public void whenAddOneItemThenShowItemById() {
         tracker.dropItems();
-        Item item1 = new Item("Name", "desc", 123L);
+        Item item1 = new Item("Name", "desc");
         tracker.add(item1);
-        Input input = new StubInput(new String[]{"4", item1.getId(), "6"});
+        Input input = new StubInput(new String[]{"4", Long.toString(item1.getId()), "6"});
         new StartUI(input, tracker).init();
         String result = new StringBuilder()
                 .append(menu)
@@ -148,7 +148,7 @@ public class StartUITest {
     @Test
     public void whenAddOneItemThenShowItemByName() {
         tracker.dropItems();
-        Item item1 = new Item("Name", "desc", 123L);
+        Item item1 = new Item("Name", "desc");
         tracker.add(item1);
         Input input = new StubInput(new String[]{"5", item1.getName(), "6"});
         new StartUI(input, tracker).init();

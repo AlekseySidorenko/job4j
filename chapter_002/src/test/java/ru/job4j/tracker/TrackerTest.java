@@ -33,7 +33,7 @@ public class TrackerTest {
     @Test
     public void whenAddItemThenReturnAddedItem() {
         tracker.dropItems();
-        Item item = new Item("test", "Description", 1L);
+        Item item = new Item("test", "Description");
         tracker.add(item);
         assertThat(tracker.findById(item.getId()), is(item));
     }
@@ -44,9 +44,9 @@ public class TrackerTest {
     @Test
     public void whenUpdateItemNameThenReturnNewItemName() {
         tracker.dropItems();
-        Item previous = new Item("test1", "testDescription", 123L);
+        Item previous = new Item("test1", "testDescription");
         tracker.add(previous);
-        Item next = new Item("test2", "testDescription2", 1234L);
+        Item next = new Item("test2", "testDescription2");
         next.setId(previous.getId());
         tracker.update(next);
         assertThat(tracker.findById(previous.getId()).getName(), is("test2"));
@@ -58,9 +58,9 @@ public class TrackerTest {
     @Test
     public void whenDeleteItemThenItemsHasNoItem() {
         tracker.dropItems();
-        Item firstItem = new Item("firstItem", "testDescription", 123L);
+        Item firstItem = new Item("firstItem", "testDescription");
         tracker.add(firstItem);
-        Item secondItem = new Item("secondItem", "testDescription", 123L);
+        Item secondItem = new Item("secondItem", "testDescription");
         tracker.add(secondItem);
         tracker.delete(firstItem);
         assertNull(tracker.findById(firstItem.getId()));
@@ -72,11 +72,11 @@ public class TrackerTest {
     @Test
     public void whenAddThreeItemThenItemsHasThreeItem() {
         tracker.dropItems();
-        Item firstItem = new Item("firstItem", "testDescription", 123L);
+        Item firstItem = new Item("firstItem", "testDescription");
         tracker.add(firstItem);
-        Item secondItem = new Item("secondItem", "testDescription", 123L);
+        Item secondItem = new Item("secondItem", "testDescription");
         tracker.add(secondItem);
-        Item thirdItem = new Item("thirdItem", "testDescription", 123L);
+        Item thirdItem = new Item("thirdItem", "testDescription");
         tracker.add(thirdItem);
         List<Item> expected = new ArrayList<>();
         expected.add(firstItem);
@@ -91,11 +91,11 @@ public class TrackerTest {
     @Test
     public void whenAddTwoItemWithSameNameAndThirdItemThenFindTwoItemByName() {
         tracker.dropItems();
-        Item firstItem = new Item("TestItem", "testDescription1", 1231L);
+        Item firstItem = new Item("TestItem", "testDescription1");
         tracker.add(firstItem);
-        Item secondItem = new Item("TestItem", "testDescription2", 1232L);
+        Item secondItem = new Item("TestItem", "testDescription2");
         tracker.add(secondItem);
-        Item thirdItem = new Item("TestItem3", "testDescription2", 1232L);
+        Item thirdItem = new Item("TestItem3", "testDescription2");
         tracker.add(thirdItem);
         List<Item> expected = new ArrayList<>();
         expected.add(firstItem);
@@ -109,9 +109,9 @@ public class TrackerTest {
     @Test
     public void whenAddTwoItemThenFindTwoItemById() {
         tracker.dropItems();
-        Item firstItem = new Item("firstItem", "testDescription1", 1231L);
+        Item firstItem = new Item("firstItem", "testDescription1");
         tracker.add(firstItem);
-        Item secondItem = new Item("secondItem", "testDescription2", 1232L);
+        Item secondItem = new Item("secondItem", "testDescription2");
         tracker.add(secondItem);
         Item[] expected = {firstItem, secondItem};
         Item[] result = {tracker.findById(firstItem.getId()), tracker.findById(secondItem.getId())};

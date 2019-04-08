@@ -9,7 +9,7 @@ public class StartUI {
 
     private int[] range;
     private final Input input;
-    private final Tracker tracker;
+    private final ITracker tracker;
 
     /**
      * Метод формирует диапазон корректных значений для выбора в меню.
@@ -25,7 +25,7 @@ public class StartUI {
     /**
      * Конструктор.
      */
-    public StartUI(Input input, Tracker tracker) {
+    public StartUI(Input input, ITracker tracker) {
         this.input = input;
         this.tracker = tracker;
     }
