@@ -20,8 +20,8 @@ public class AnalyzeTest {
     public void whenReadLogFileThenGetAnavailablePeriods() throws Exception {
 
         String rootPath = System.getProperty("java.io.tmpdir");
-
-        File sourceData = new File(rootPath + "\\sourcelog.txt");
+        final String separator = File.separator;
+        File sourceData = new File(rootPath + separator + "sourcelog.txt");
         PrintWriter sourceLog = new PrintWriter(sourceData);
         sourceLog.println("200 10:56:01");
         sourceLog.println("500 10:57:01");
@@ -33,7 +33,7 @@ public class AnalyzeTest {
 
         Analyze analyze = new Analyze();
         String source = sourceData.getPath();
-        String target = rootPath + "\\target.csv";
+        String target = rootPath + separator + "target.csv";
 
         analyze.unavailable(source, target);
         String expected = "10:57:01;10:59:01;";
