@@ -31,12 +31,43 @@ public class FileSystemScanner {
                 for (File listFile : nextFile.listFiles()) {
                     queue.offer(listFile);
                 }
-            } else {
-                for (String ext : exts) {
-                    if (nextFile.getName().endsWith(ext)) {
-                        result.add(nextFile);
-                    }
-                }
+            }
+            if (checkForNeededExtension(nextFile.getName(), exts)) {
+                result.add(nextFile);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Check file extension for containing in list of needed extensions.
+     * @param fileName File name.
+     * @param extensions List of files extensions.
+     * @return True if file extension contains in list of extensions.
+     */
+    boolean checkForNeededExtension(String fileName, List<String> extensions) {
+        boolean result = false;
+        for (String extension : extensions) {
+            if (fileName.endsWith(extension)) {
+                result = true;
+                break;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Check file extension for containing in list of needless extensions.
+     * @param fileName File name.
+     * @param extensions List of files extensions.
+     * @return True if file extension contains in list of extensions.
+     */
+    boolean checkForNeedlessExtension(String fileName, List<String> extensions) {
+        boolean result = false;
+        for (String extension : extensions) {
+            if (fileName.endsWith(extension)) {
+                result = true;
+                break;
             }
         }
         return result;
