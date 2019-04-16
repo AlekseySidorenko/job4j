@@ -17,7 +17,9 @@ public class ConfigTest {
      */
     @Test
     public void whenReadEmptyFileThenMapIsEmpty() {
-        Config config = new Config("config.empty.app.properties");
+        ClassLoader loader = this.getClass().getClassLoader();
+        String path = loader.getResource("config-test/config.empty.app.properties").getPath();
+        Config config = new Config(path);
         config.load();
         assertTrue(config.getValues().isEmpty());
     }
@@ -27,7 +29,9 @@ public class ConfigTest {
      */
     @Test
     public void whenReadRealFileThenMapGotData() {
-        Config config = new Config("config.app.properties");
+        ClassLoader loader = this.getClass().getClassLoader();
+        String path = loader.getResource("config-test/config.app.properties").getPath();
+        Config config = new Config(path);
         String sampleKeyFromFile = "hibernate.connection.driver_class";
         String sampleValueFromFIle = "org.postgresql.Driver";
         config.load();
