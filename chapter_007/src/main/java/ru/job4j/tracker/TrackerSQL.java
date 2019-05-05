@@ -15,34 +15,28 @@ import java.util.*;
 public class TrackerSQL implements ITracker, AutoCloseable {
 
     private static final Logger LOG = LogManager.getLogger(TrackerSQL.class.getName());
-    private static TrackerSQL instance;
     private Connection connection;
-    private final String initialQuery = "CREATE TABLE IF NOT EXISTS items ("
-                                      + "id SERIAL PRIMARY KEY NOT NULL,"
-                                      + "item_id BIGINT NOT NULL,"
-                                      + "name VARCHAR(100) NOT NULL,"
-                                      + "description VARCHAR(200),"
-                                      + "create_date BIGINT NOT NULL)";
 
-    private TrackerSQL() {
+    /**
+     * Constructor for tests
+     * @param connection connection with rollback option
+     */
+    TrackerSQL(Connection connection) {
+        this.connection = connection;
     }
 
     /**
-     * Singleton.
-     * @return TrackerSQL instance.
+     * Constructor
      */
-    public static synchronized TrackerSQL getInstance() {
-        if (instance == null) {
-            instance = new TrackerSQL();
-        }
-        return instance;
+    TrackerSQL() {
+        this.connection = initConnection();
     }
 
     /**
      * Init connection to database.
-     * @return true if got connection.
+     * @return Connection connection.
      */
-    public boolean initConnection() {
+    public Connection initConnection() {
         try (InputStream in = TrackerSQL.class.getClassLoader().getResourceAsStream("app.properties")) {
             Properties config = new Properties();
             config.load(in);
@@ -53,39 +47,9 @@ public class TrackerSQL implements ITracker, AutoCloseable {
                     config.getProperty("password")
             );
         } catch (Exception e) {
-            LOG.error("Can't get properties for database connection");
-            throw new IllegalStateException(e);
+            LOG.error(e.getMessage(), e);
         }
-        return this.connection != null;
-    }
-
-    /**
-     * Create table for items if not exists.
-     */
-    public void initItemsTable() {
-        if (initConnection()) {
-            try {
-                if (this.connection != null) {
-                    Statement statement = this.connection.createStatement();
-                    statement.executeUpdate(initialQuery);
-                }
-            } catch (SQLException e) {
-                LOG.error("Problem with connection to database");
-                e.printStackTrace();
-            }
-        }
-    }
-
-    /**
-     * Drop table items if exists.
-     */
-    public void dropItemsTable() {
-        try (PreparedStatement preparedStatement = this.connection.prepareStatement("DROP TABLE IF EXISTS items")) {
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            LOG.error("Can't drop table items");
-            e.printStackTrace();
-        }
+        return this.connection;
     }
 
     /**
@@ -112,8 +76,7 @@ public class TrackerSQL implements ITracker, AutoCloseable {
             preparedStatement.setLong(4,    item.getCreateDate());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            LOG.error("Can't insert item");
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
         return item;
     }
@@ -131,8 +94,7 @@ public class TrackerSQL implements ITracker, AutoCloseable {
             preparedStatement.setLong(3, item.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            LOG.error("Can't update item");
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
     }
 
@@ -147,8 +109,7 @@ public class TrackerSQL implements ITracker, AutoCloseable {
             preparedStatement.setLong(1, item.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            LOG.error("Can't delete item");
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
     }
 
@@ -171,8 +132,7 @@ public class TrackerSQL implements ITracker, AutoCloseable {
                 items.add(item);
             }
         } catch (SQLException e) {
-            LOG.error("Can't get list of items");
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
         return items;
     }
@@ -197,8 +157,7 @@ public class TrackerSQL implements ITracker, AutoCloseable {
                 items.add(item);
             }
         } catch (SQLException e) {
-            LOG.error("Can't find item by name");
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
         return items;
     }
@@ -222,8 +181,7 @@ public class TrackerSQL implements ITracker, AutoCloseable {
                 item.setCreateDate(resultSet.getLong("create_date"));
             }
         } catch (SQLException e) {
-            LOG.error("Can't find item by id");
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
         return item;
     }

@@ -1,12 +1,15 @@
 package ru.job4j.tracker;
 
 import org.hamcrest.core.Is;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
@@ -18,44 +21,31 @@ import static org.junit.Assert.*;
  */
 public class TrackerSQLTest {
 
-    TrackerSQL trackerSQL = TrackerSQL.getInstance();
+    TrackerSQL trackerSQL;
     Item item = new Item("Item", "Item description");
     Item item1 = new Item("Item1", "Item1 description");
 
-    @Before
-    public void setUp() {
-        trackerSQL.initConnection();
-        trackerSQL.initItemsTable();
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        trackerSQL.dropItemsTable();
-        trackerSQL.close();
-    }
-
-    /**
-     * Test tracker singleton.
-     */
-    @Test
-    public void whenTryToGetNewTrackerThenReturnOnlyOneTracker() {
-        TrackerSQL trackerTwo = TrackerSQL.getInstance();
-        assertThat(trackerSQL, Is.is(trackerTwo));
-    }
-
-    /**
-     * Test database connection.
-     */
-    @Test
-    public void checkConnection() {
-        assertThat(trackerSQL.initConnection(), is(true));
+    public Connection init() {
+        try (InputStream in = TrackerSQL.class.getClassLoader().getResourceAsStream("app.properties")) {
+            Properties config = new Properties();
+            config.load(in);
+            Class.forName(config.getProperty("driver-class-name"));
+            return DriverManager.getConnection(
+                    config.getProperty("url"),
+                    config.getProperty("username"),
+                    config.getProperty("password")
+            );
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        }
     }
 
     /**
      * Test add.
      */
     @Test
-    public void whenAddItemThenGetSameItem() {
+    public void whenAddItemThenGetSameItem() throws SQLException {
+        trackerSQL = new TrackerSQL(ConnectionRollback.create(this.init()));
         trackerSQL.add(item);
         assertThat(trackerSQL.findById(item.getId()).getId(), is(item.getId()));
     }
@@ -64,7 +54,8 @@ public class TrackerSQLTest {
      * Test update.
      */
     @Test
-    public void whenUpdateItemNameThenReturnNewItemName() {
+    public void whenUpdateItemNameThenReturnNewItemName() throws SQLException {
+        trackerSQL = new TrackerSQL(ConnectionRollback.create(this.init()));
         trackerSQL.add(item);
         Item updatedItem = new Item("UpdatedItem", "Item description");
         updatedItem.setId(item.getId());
@@ -77,7 +68,8 @@ public class TrackerSQLTest {
      * Test delete.
      */
     @Test
-    public void whenDeleteItemThenItemsHasNoItem() {
+    public void whenDeleteItemThenItemsHasNoItem() throws SQLException {
+        trackerSQL = new TrackerSQL(ConnectionRollback.create(this.init()));
         trackerSQL.add(item);
         trackerSQL.delete(item);
         assertNull(trackerSQL.findById(item.getId()));
@@ -87,7 +79,8 @@ public class TrackerSQLTest {
      * Test findAll.
      */
     @Test
-    public void whenAddTwoItemsThenFindTwoItems() {
+    public void whenAddTwoItemsThenFindTwoItems() throws SQLException {
+        trackerSQL = new TrackerSQL(ConnectionRollback.create(this.init()));
         trackerSQL.add(item);
         trackerSQL.add(item1);
         List<Item> expected = new ArrayList<>();
@@ -102,7 +95,8 @@ public class TrackerSQLTest {
      * Test findByName.
      */
     @Test
-    public void whenAddTwoItemWithSameNameAndAddThirdItemThenFindTwoItemsByName() {
+    public void whenAddTwoItemWithSameNameAndAddThirdItemThenFindTwoItemsByName() throws SQLException {
+        trackerSQL = new TrackerSQL(ConnectionRollback.create(this.init()));
         Item itemSameName = new Item("Item", "Item description");
         trackerSQL.add(item);
         trackerSQL.add(item1);
@@ -119,7 +113,8 @@ public class TrackerSQLTest {
      * Test findById.
      */
     @Test
-    public void whenAddItemThenFindItemById() {
+    public void whenAddItemThenFindItemById() throws SQLException {
+        trackerSQL = new TrackerSQL(ConnectionRollback.create(this.init()));
         trackerSQL.add(item);
         assertThat((trackerSQL.findById(item.getId())).getId(), is(item.getId()));
     }
