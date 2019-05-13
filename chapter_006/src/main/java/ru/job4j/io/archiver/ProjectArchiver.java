@@ -29,7 +29,7 @@ public class ProjectArchiver {
         String targetPath = parser.getOutput();
         extensions.add(extension);
         List<File> files = checker.getFiles(sourcePath, extensions);
-        zip.pack(files, new File(targetPath));
+        zip.pack(sourcePath, files, new File(targetPath));
     }
 
     public static void main(String[] args) {

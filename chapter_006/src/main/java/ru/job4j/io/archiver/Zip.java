@@ -17,12 +17,14 @@ public class Zip {
      * @param source Source folder.
      * @param target Zip-archive.
      */
-    public void pack(List<File> source, File target) {
+    public void pack(String sourcePath, List<File> source, File target) {
+        String parentPath = new File(sourcePath).getParent();
         try (ZipOutputStream zip = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(target)))) {
             for (File file : source) {
                 if (!file.isDirectory()) {
                     try (BufferedInputStream in = new BufferedInputStream(new FileInputStream(file))) {
-                        zip.putNextEntry(new ZipEntry(file.getPath()));
+                        String path = new File(parentPath).toURI().relativize(new File(file.getPath()).toURI()).getPath();
+                        zip.putNextEntry(new ZipEntry(path));
                         byte[] buffer = new byte[in.available()];
                         in.read(buffer);
                         zip.write(buffer);
