@@ -35,6 +35,26 @@ public class ArgsParser {
                 value = "";
             }
         }
+
+        if (args.length != 6 || !this.checkArgs()) {
+            System.out.println("Аргументы программы должны быть в следующем виде:");
+            System.out.println("-d source_path -e *.file_extension -o target_path.zip");
+            System.exit(0);
+        }
+    }
+
+    /**
+     * Check parsed arguments.
+     * @return true if arguments are valid.
+     */
+    private boolean checkArgs() {
+        boolean result = false;
+        if (params.containsKey("-d")
+                && params.containsKey("-e")
+                && params.containsKey(("-o"))) {
+            result = true;
+        }
+        return result;
     }
 
     public String getDirectory() {

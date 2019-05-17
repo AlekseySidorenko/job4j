@@ -33,11 +33,6 @@ public class ProjectArchiver {
     }
 
     public static void main(String[] args) {
-        if (args.length != 6) {
-            System.out.println("Аргументы программы должны быть в следующем виде:");
-            System.out.println("-d source_path -e *.file_extension -o target_path.zip");
-            System.exit(0);
-        }
         ProjectArchiver archiver = new ProjectArchiver(args);
         archiver.archive();
     }
