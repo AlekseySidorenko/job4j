@@ -22,7 +22,7 @@ public class FileSystemScannerTest {
      * Test getFiles()
      */
     @Test
-    public void when4TargetFilesInFoldersThenFind3Files() {
+    public void when4TargetFilesInFoldersThenFind4Files() {
 
         FileSystemScanner fsc = new FileSystemScanner();
         String rootPath = System.getProperty("java.io.tmpdir");

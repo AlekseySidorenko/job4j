@@ -19,7 +19,7 @@ public class FileSystemScanner {
      * @param exts List of file extensions.
      * @return List of files.
      */
-    List<File> getFiles(String parent, List<String> exts) {
+    public List<File> getFiles(String parent, List<String> exts) {
         Queue<File> queue = new LinkedList<>();
         List<File> result = new ArrayList<>();
         File file = new File(parent);
@@ -32,7 +32,7 @@ public class FileSystemScanner {
                     queue.offer(listFile);
                 }
             }
-            if (checkForNeededExtension(nextFile.getName(), exts)) {
+            if (checkExtension(nextFile.getName(), exts)) {
                 result.add(nextFile);
             }
         }
@@ -45,24 +45,7 @@ public class FileSystemScanner {
      * @param extensions List of files extensions.
      * @return True if file extension contains in list of extensions.
      */
-    boolean checkForNeededExtension(String fileName, List<String> extensions) {
-        boolean result = false;
-        for (String extension : extensions) {
-            if (fileName.endsWith(extension)) {
-                result = true;
-                break;
-            }
-        }
-        return result;
-    }
-
-    /**
-     * Check file extension for containing in list of needless extensions.
-     * @param fileName File name.
-     * @param extensions List of files extensions.
-     * @return True if file extension contains in list of extensions.
-     */
-    boolean checkForNeedlessExtension(String fileName, List<String> extensions) {
+    boolean checkExtension(String fileName, List<String> extensions) {
         boolean result = false;
         for (String extension : extensions) {
             if (fileName.endsWith(extension)) {
