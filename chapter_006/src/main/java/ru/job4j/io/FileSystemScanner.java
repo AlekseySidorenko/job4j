@@ -32,7 +32,7 @@ public class FileSystemScanner {
                     queue.offer(listFile);
                 }
             }
-            if (checkExtension(nextFile.getName(), exts)) {
+            if (checkExtension(nextFile.getName(), exts) || nextFile.isDirectory()) {
                 result.add(nextFile);
             }
         }
