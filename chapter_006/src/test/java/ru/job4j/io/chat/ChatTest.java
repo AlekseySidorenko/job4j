@@ -1,11 +1,9 @@
 package ru.job4j.io.chat;
 
-import org.junit.Rule;
 import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 import static org.junit.Assert.*;
-import org.junit.contrib.java.lang.system.ExpectedSystemExit;
 
 /**
  * Class AbuseWordsRemover | Task Solution: Console chat implementation [#862]
@@ -14,8 +12,28 @@ import org.junit.contrib.java.lang.system.ExpectedSystemExit;
  */
 public class ChatTest {
 
-    @Rule
-    public final ExpectedSystemExit exit = ExpectedSystemExit.none();
+    /**
+     * test validateArgs()
+     */
+    @Test
+    public void whenGetInvalidNumberOfArgsThenValidateNotPassing() {
+        Chat chat = new Chat();
+        String[] args = new String[1];
+        args[0] = "-file";
+        assertFalse(chat.validateArgs(args));
+    }
+
+    /**
+     * test validateArgs()
+     */
+    @Test
+    public void whenGetValidNumberOfArgsThenValidateIsPassing() {
+        Chat chat = new Chat();
+        String[] args = new String[2];
+        args[0] = "-file";
+        args[1] = "filepath";
+        assertTrue(chat.validateArgs(args));
+    }
 
     /**
      * test parseArgs()
@@ -28,18 +46,6 @@ public class ChatTest {
         args[1] = "filepath";
         String expected = "filepath";
         assertEquals(chat.parseArgs(args), expected);
-    }
-
-    /**
-     * test parseArgs()
-     */
-    @Test
-    public void whenGetInvalidNumberOfArgsThenSystemExit0() {
-        Chat chat = new Chat();
-        exit.expectSystemExitWithStatus(0);
-        String[] args = new String[1];
-        args[0] = "-file";
-        List<String> answers = chat.getAnswers(chat.parseArgs(args));
     }
 
     /**

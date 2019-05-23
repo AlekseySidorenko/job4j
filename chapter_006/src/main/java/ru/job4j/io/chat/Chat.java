@@ -23,7 +23,26 @@ public class Chat {
     }
 
     public Chat(String[] args) {
-        answers = this.getAnswers(this.parseArgs(args));
+        if (validateArgs(args)) {
+            answers = this.getAnswers(this.parseArgs(args));
+            startDialogue();
+        }
+    }
+
+    /**
+     * Validate arguments from command line.
+     * @param args Arguments.
+     * @return Validate result.
+     */
+    boolean validateArgs(String[] args) {
+        boolean result = false;
+        if (args.length == 2 && args[0].equalsIgnoreCase("-file") && !args[1].isEmpty()) {
+            result = true;
+        } else {
+            System.out.println("Аргументы программы должны быть в следующем виде:");
+            System.out.println("-file path_filename.txt");
+        }
+        return result;
     }
 
     /**
@@ -31,14 +50,7 @@ public class Chat {
      * @param args Arguments.
      */
     public String parseArgs(String[] args) {
-        String path = null;
-        if (args.length == 2 && args[0].equalsIgnoreCase("-file") && !args[1].isEmpty()) {
-            path = args[1];
-        } else {
-            System.out.println("Аргументы программы должны быть в следующем виде:");
-            System.out.println("-file path_filename.txt");
-            System.exit(0);
-        }
+        String path = args[1];
         return path;
     }
 
@@ -78,11 +90,11 @@ public class Chat {
         String answer;
         boolean needAnswer = true;
         try (PrintWriter resultLog = new PrintWriter(new FileOutputStream(log))) {
-            while (!userInput.equalsIgnoreCase(FINISH)) {
+            while (!FINISH.equalsIgnoreCase(userInput)) {
                 userInput = scanner.nextLine();
-                if (userInput.equalsIgnoreCase(STOP) || userInput.equalsIgnoreCase(FINISH)) {
+                if (STOP.equalsIgnoreCase(userInput) || FINISH.equalsIgnoreCase(userInput)) {
                     needAnswer = false;
-                } else if (userInput.equalsIgnoreCase(CONTINUE)) {
+                } else if (CONTINUE.equalsIgnoreCase(userInput)) {
                     needAnswer = true;
                 }
                 resultLog.write(userInput + separator);
@@ -101,7 +113,6 @@ public class Chat {
      * Main.
      */
     public static void main(String[] args) {
-        Chat chat = new Chat(args);
-        chat.startDialogue();
+        new Chat(args);
     }
 }
