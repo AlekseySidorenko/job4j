@@ -10,49 +10,42 @@ import static org.junit.Assert.assertThat;
  * @since 17.10.2017
  */
 public class CalculatorTest {
-    /**
-     * Test add.
-     */
+
+    /** Test addition. */
     @Test
     public void whenAddOnePlusOneThenTwo() {
         Calculator calc = new Calculator();
-        calc.add(1D, 1D);
+        calc.add(new Operands(1D, 1D));
         double result = calc.getResult();
         double expected = 2D;
         assertThat(result, is(expected));
     }
 
-    /**
-     * Test substruct.
-     */
+    /** Test substruction. */
     @Test
     public void whenSubstructFiveMinusTwoThenThree() {
         Calculator calc = new Calculator();
-        calc.substract(5D, 2D);
+        calc.substract(new Operands(5D, 2D));
         double result = calc.getResult();
         double expected = 3D;
         assertThat(result, is(expected));
     }
 
-    /**
-     * Test divide.
-     */
+    /** Test division. */
     @Test
     public void whenDivideTwelveByThreeThenFour() {
         Calculator calc = new Calculator();
-        calc.div(12D, 3D);
+        calc.divide(new Operands(12D, 3D));
         double result = calc.getResult();
         double expected = 4D;
         assertThat(result, is(expected));
     }
 
-    /**
-     * Test multiple.
-     */
+    /** Test multiplication. */
     @Test
     public void whenMultipleTwoTimesThreeThenSix() {
         Calculator calc = new Calculator();
-        calc.multiple(2D, 3D);
+        calc.multiple(new Operands(2D, 3D));
         double result = calc.getResult();
         double expected = 6D;
         assertThat(result, is(expected));

@@ -1,54 +1,50 @@
 package ru.job4j.calculator;
 
 /**
- * Class Calculator Решение задачи 2.3. Элементарный калькулятор [#185]
+ * Class Calculator | Elementary calculator [#185]
  * @author Aleksey Sidorenko (mailto:sidorenko.aleksey@gmail.com)
  * @since 17.10.2017
  */
 public class Calculator {
 
-    /** Результат операции. */
+    /** Calculate result. */
     private double result;
 
     /**
-     * Метод складывает значения параметров first и second.
-     * @param first Первое слагаемое
-     * @param second Второе слагаемое
+     * Addition operation.
+     * @param operands Two operands for calculate
      */
-    void add(double first, double second) {
-        this.result = first + second;
+    public void add(Operands operands) {
+        this.result = operands.getLeft() + operands.getRight();
     }
 
     /**
-     * Метод вычитает значение параметра second от параметра first.
-     * @param first Уменьшаемое
-     * @param second Вычитаемое
+     * Subtraction operation.
+     * @param operands Two operands for calculate
      */
-    void substract(double first, double second) {
-        this.result = first - second;
+    public void substract(Operands operands) {
+        this.result = operands.getLeft() - operands.getRight();
     }
 
     /**
-     * Метод делит значение параметра first на значение параметра second.
-     * @param first Делимое
-     * @param second Делитель
+     * Division operation.
+     * @param operands Two operands for calculate
      */
-    void div(double first, double second) {
-        this.result = first / second;
+    public void divide(Operands operands) {
+        this.result = operands.getLeft() / operands.getRight();
     }
 
     /**
-     * Метод умножает значение параметра first на значение параметра second.
-     * @param first Первый множитель
-     * @param second Второй множитель
+     * Multiplication operation.
+     * @param operands Two operands for calculate
      */
-    void multiple(double first, double second) {
-        this.result = first * second;
+    public void multiple(Operands operands) {
+        this.result = operands.getLeft() * operands.getRight();
     }
 
     /**
-     * Геттер для поля result.
-     * @return Значение поля result
+     * Getter.
+     * @return Result.
      */
     public double getResult() {
         return this.result;
