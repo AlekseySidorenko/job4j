@@ -13,17 +13,17 @@ import java.util.function.Consumer;
  * @since 13.06.2019
  */
 public class Operations {
-    private final Calculator calculator;
+    protected final Calculator calculator;
 
     /**
      * Key = operaion type, value = operation implementation.
      */
-    public final Map<String, Consumer<Operands>> operations;
+    protected Map<String, Consumer<Operands>> operations;
 
     /**
      * Constructor.
      */
-    public Operations(final Calculator calculator) {
+    public Operations(Calculator calculator) {
         this.calculator = calculator;
         this.operations = new HashMap<>();
         this.fillOperations();
@@ -32,7 +32,7 @@ public class Operations {
     /**
      * Fill map with available operations.
      */
-    private void fillOperations() {
+    protected void fillOperations() {
         operations.put("+", this.calculator::add);
         operations.put("-", this.calculator::substract);
         operations.put("/", this.calculator::divide);

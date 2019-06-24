@@ -1,6 +1,8 @@
 package ru.job4j.calc;
 
 import org.junit.Test;
+import ru.job4j.calculator.Calculator;
+
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -11,11 +13,13 @@ import static org.hamcrest.MatcherAssert.assertThat;
  */
 public class InteractCalcTest {
 
+    Calculator calculator = new Calculator();
+
     /** Test addition */
     @Test
     public void whenOnePlusTwoThenGet3() {
         Input input = new StubInput(new String[]{"1", "2", "+", "exit"});
-        InteractCalc calc = new InteractCalc(input);
+        InteractCalc calc = new InteractCalc(input, calculator, new Operations(calculator));
         calc.init();
         assertThat(calc.getResult(), is(3D));
     }
@@ -24,7 +28,7 @@ public class InteractCalcTest {
     @Test
     public void whenFiveMinusTwoThenGet3() {
         Input input = new StubInput(new String[]{"5", "2", "-", "exit"});
-        InteractCalc calc = new InteractCalc(input);
+        InteractCalc calc = new InteractCalc(input, calculator, new Operations(calculator));
         calc.init();
         assertThat(calc.getResult(), is(3D));
     }
@@ -33,7 +37,7 @@ public class InteractCalcTest {
     @Test
     public void whenFiveMultipleTwoThenGet10() {
         Input input = new StubInput(new String[]{"5", "2", "*", "exit"});
-        InteractCalc calc = new InteractCalc(input);
+        InteractCalc calc = new InteractCalc(input, calculator, new Operations(calculator));
         calc.init();
         assertThat(calc.getResult(), is(10D));
     }
@@ -42,7 +46,7 @@ public class InteractCalcTest {
     @Test
     public void whenSixDivideTwoThenGet3() {
         Input input = new StubInput(new String[]{"6", "3", "/", "exit"});
-        InteractCalc calc = new InteractCalc(input);
+        InteractCalc calc = new InteractCalc(input, calculator, new Operations(calculator));
         calc.init();
         assertThat(calc.getResult(), is(2D));
     }
@@ -51,7 +55,7 @@ public class InteractCalcTest {
     @Test
     public void whenNextCalculationGetLastResultThenResultIsUsed() {
         Input input = new StubInput(new String[]{"1", "2", "+", "next", "last", "5", "+", "exit"});
-        InteractCalc calc = new InteractCalc(input);
+        InteractCalc calc = new InteractCalc(input, calculator, new Operations(calculator));
         calc.init();
         assertThat(calc.getResult(), is(8D));
     }
@@ -60,7 +64,7 @@ public class InteractCalcTest {
     @Test
     public void whenSetNotValidOperandThenOperandSetsByDefault() {
         Input input = new StubInput(new String[]{"1", "wrong", "+", "exit"});
-        InteractCalc calc = new InteractCalc(input);
+        InteractCalc calc = new InteractCalc(input, calculator, new Operations(calculator));
         calc.init();
         assertThat(calc.getResult(), is(1D));
     }

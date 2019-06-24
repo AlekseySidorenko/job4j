@@ -8,7 +8,7 @@ package ru.job4j.calculator;
 public class Calculator {
 
     /** Calculate result. */
-    private double result;
+    protected double result;
 
     /**
      * Addition operation.
@@ -48,5 +48,41 @@ public class Calculator {
      */
     public double getResult() {
         return this.result;
+    }
+
+    /**
+     * Sine calculation operation.
+     * @param operands Two operands for calculate
+     *                 Use only first operand
+     */
+    public void sin(Operands operands) {
+        this.result = Math.sin(operands.getLeft());
+    }
+
+    /**
+     * Cosine calculation operation.
+     * @param operands Two operands for calculate
+     *                 Use only first operand
+     */
+    public void cos(Operands operands) {
+        this.result = Math.cos(operands.getLeft());
+    }
+
+    /**
+     * Tangent calculation operation.
+     * @param operands Two operands for calculate
+     *                 Use only first operand
+     */
+    public void tg(Operands operands) {
+        this.result = Math.tan(operands.getLeft());
+    }
+
+    /**
+     * Cotangent calculation operation.
+     * @param operands Two operands for calculate
+     *                 Use only first operand
+     */
+    public void ctg(Operands operands) {
+        this.result = 1D / Math.tan(operands.getLeft());
     }
 }

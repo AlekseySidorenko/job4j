@@ -12,20 +12,19 @@ import java.util.function.Consumer;
  */
 public class InteractCalc {
 
-    private final Calculator calculator = new Calculator();
+    private final Calculator calculator;
 
     /** Available operations in Calculator. */
-    private final Map<String, Consumer<Operands>> operations = new Operations(this.calculator).getOperations();
+    protected final Map<String, Consumer<Operands>> operations;
 
     /** Input method. */
-    private final Input input;
-
-    /** Number of calculations while program works. */
-    private int calculatesCount = 0;
+    protected final Input input;
 
     /** Constructor. */
-    public InteractCalc(Input input) {
+    public InteractCalc(Input input, Calculator calculator, Operations operations) {
         this.input = input;
+        this.calculator = calculator;
+        this.operations = operations.getOperations();
     }
 
     /** Getter. */
@@ -42,7 +41,7 @@ public class InteractCalc {
         double operandValue = 0;
         if (validateInputOperand(input)) {
             operandValue = Double.parseDouble(input);
-        } else if ("last".equalsIgnoreCase(input) & calculatesCount > 0) {
+        } else if ("last".equalsIgnoreCase(input) & this.calculator.getResult() != 0) {
             operandValue = this.calculator.getResult();
         } else {
             System.out.println("Not valid number - setting input value to 0");
@@ -97,23 +96,13 @@ public class InteractCalc {
      * Init calculation program.
      */
     public void init() {
-        double left;
-        double right;
-        String operation;
+        double calculationResult = 0;
         boolean nextCalculation = true;
-
         while (nextCalculation) {
-            if (calculatesCount > 0) {
+            if (!(calculationResult == 0)) {
                 System.out.println("Type \"last\" to get previous operation result");
             }
-            left = this.getOperandValue(input.ask("Type left operand"));
-            right = this.getOperandValue(input.ask("Type right operand"));
-            operation = this.getOperation(input.ask("Type operation"));
-            if (!"false".equalsIgnoreCase(operation)) {
-                this.operations.get(operation).accept(new Operands(left, right));
-                System.out.println("Result: " + this.getResult());
-                calculatesCount++;
-            }
+            calculationResult = doCalculation();
             if ("exit".equalsIgnoreCase(input.ask("Type \"exit\" to exit program or any key to next calculation"))) {
                 nextCalculation = false;
             }
@@ -121,10 +110,29 @@ public class InteractCalc {
     }
 
     /**
+     * Do calculation.
+     */
+    protected double doCalculation() {
+        double left;
+        double right;
+        String operation;
+        left = this.getOperandValue(input.ask("Type left operand"));
+        right = this.getOperandValue(input.ask("Type right operand"));
+        operation = this.getOperation(input.ask("Type operation"));
+        if (!"false".equalsIgnoreCase(operation)) {
+            this.operations.get(operation).accept(new Operands(left, right));
+            System.out.println("Result: " + this.getResult());
+        }
+        return this.getResult();
+    }
+
+
+    /**
      * Main.
      */
     public static void main(String[] args) {
-        InteractCalc calc = new InteractCalc(new ConsoleInput());
+        Calculator calculator = new Calculator();
+        InteractCalc calc = new InteractCalc(new ConsoleInput(), calculator,  new Operations(calculator));
         calc.init();
     }
 }
