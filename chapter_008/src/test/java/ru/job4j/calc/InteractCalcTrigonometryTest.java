@@ -2,10 +2,11 @@
 package ru.job4j.calc;
 
 import org.junit.Test;
+import ru.job4j.calc.input.*;
+import ru.job4j.calc.operations.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertTrue;
 
 
 /**
@@ -14,9 +15,9 @@ import static org.junit.Assert.assertTrue;
  * @since 24.06.2019
  */
 
-public class TrigonometryCalcTest {
+public class InteractCalcTrigonometryTest {
 
-    Calculator calculator = new CalculatorTrigonometry();
+    Calculator calculator = new Calculator();
 
     /** Test sin */
     @Test
@@ -25,6 +26,7 @@ public class TrigonometryCalcTest {
         String v = value.toString();
         Input input = new StubInput(new String[]{v, "sin", "exit"});
         InteractCalcTrigonometry calc = new InteractCalcTrigonometry(input, calculator);
+        calc.addOperation(new Sin());
         calc.init();
         assertThat(calc.getResult(), is(1D));
     }
@@ -34,29 +36,8 @@ public class TrigonometryCalcTest {
     public void whenCos0ThenGet1() {
         Input input = new StubInput(new String[]{"0", "cos", "exit"});
         InteractCalcTrigonometry calc = new InteractCalcTrigonometry(input, calculator);
+        calc.addOperation(new Cos());
         calc.init();
         assertThat(calc.getResult(), is(1D));
-    }
-
-    /** Test tg */
-    @Test
-    public void whenTgPIDivided4ThenGet1() {
-        Double value = Math.PI / 4;
-        String v = value.toString();
-        Input input = new StubInput(new String[]{v, "tg", "exit"});
-        InteractCalcTrigonometry calc = new InteractCalcTrigonometry(input, calculator);
-        calc.init();
-        assertTrue(calc.getResult() > 0.9999 & calc.getResult() <= 1.0001);
-    }
-
-    /** Test ctg */
-    @Test
-    public void whenCotPIdivided4ThenGet1() {
-        Double value = Math.PI / 4;
-        String v = value.toString();
-        Input input = new StubInput(new String[]{v, "ctg", "exit"});
-        InteractCalcTrigonometry calc = new InteractCalcTrigonometry(input, calculator);
-        calc.init();
-        assertTrue(calc.getResult() > 0.9999 & calc.getResult() <= 1.0001);
     }
 }
