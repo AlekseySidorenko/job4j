@@ -7,8 +7,8 @@ package ru.job4j.parking;
  */
 public class ParkService {
     private Parking parking;
-    private static int PASSENGER_CAR_SIZE = 1;
-    private static int TRUCK_SIZE = 3;
+    private static final int PASSENGER_CAR_SIZE = 1;
+    private static final int TRUCK_SIZE = 3;
 
     /** Constructor. */
     public ParkService(Parking parking) {
