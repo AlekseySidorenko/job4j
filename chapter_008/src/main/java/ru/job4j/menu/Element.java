@@ -13,9 +13,9 @@ public class Element implements MenuContainable, Executable {
     private List<MenuContainable> appendedElements;
     private final String name;
     /**
-     * Contains amount of this element's parents
+     * Contains deep level of this element's in menu
      */
-    private int parentsAmount;
+    private int menuDeepLevel;
 
     /**
      * Constructor.
@@ -34,19 +34,19 @@ public class Element implements MenuContainable, Executable {
     }
 
     @Override
-    public int getParentsAmount() {
-        return parentsAmount;
+    public int getMenuDeepLevel() {
+        return menuDeepLevel;
     }
 
     @Override
-    public void setParentsAmount(int parentsAmount) {
-        this.parentsAmount = parentsAmount;
+    public void setMenuDeepLevel(int menuDeepLevel) {
+        this.menuDeepLevel = menuDeepLevel;
     }
 
     @Override
     public void append(MenuContainable appendable) {
         appendedElements.add(appendable);
-        appendable.setParentsAmount(appendable.getParentsAmount() + 1);
+        appendable.setMenuDeepLevel(appendable.getMenuDeepLevel() + 1);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class Element implements MenuContainable, Executable {
 
     @Override
     public void show() {
-        for (int i = 0; i <= this.getParentsAmount(); i++) {
+        for (int i = 0; i <= this.getMenuDeepLevel(); i++) {
             System.out.print("--- ");
         }
         System.out.println(this.name);

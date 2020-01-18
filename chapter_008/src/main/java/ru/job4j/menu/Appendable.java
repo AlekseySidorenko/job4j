@@ -16,11 +16,11 @@ public interface Appendable {
      * Get amount of object's parents.
      * @return Amount of object's parents.
      */
-    int getParentsAmount();
+    int getMenuDeepLevel();
 
     /**
      * Set amount of object's parents.
      */
-    void setParentsAmount(int amount);
+    void setMenuDeepLevel(int amount);
 
 }

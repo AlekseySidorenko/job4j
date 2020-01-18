@@ -28,6 +28,15 @@ public class Menu {
     }
 
     /**
+     * Add subelement to element.
+     * @param rootElement rootElement.
+     * @param element appendable element.
+     */
+    public void addSubElement(Element rootElement, Element element) {
+        rootElement.append(element);
+    }
+
+    /**
      * Show menu.
      */
     public void showMenu() {

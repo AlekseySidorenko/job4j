@@ -32,11 +32,11 @@ public class MenuTest {
         Element item12 = new Element("Task 1.2");
         Element item121 = new Element("Task 1.2.1");
         Element item2 = new Element("Task 2");
-        item1.append(item11);
-        item1.append(item12);
-        item12.append(item121);
         menu.addElement(item1);
         menu.addElement(item2);
+        menu.addSubElement(item1, item11);
+        menu.addSubElement(item1, item12);
+        menu.addSubElement(item12, item121);
         menu.showMenu();
         assertThat(
                 new String(output.toByteArray()),
