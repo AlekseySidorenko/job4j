@@ -1,8 +1,16 @@
 package ru.job4j.foodstorage;
 
+import ru.job4j.foodstorage.storage.Shop;
+import ru.job4j.foodstorage.storage.Trash;
+import ru.job4j.foodstorage.storage.Warehouse;
+import ru.job4j.foodstorage.transfer.ShopFoodTransfer;
 import ru.job4j.foodstorage.transfer.TransferStrategy;
+import ru.job4j.foodstorage.transfer.TrashFoodTransfer;
+import ru.job4j.foodstorage.transfer.WarehouseFoodTransfer;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Class ControlQuality | Implement FoodStorage [#852]
@@ -20,5 +28,21 @@ public class ControlQuality {
      */
     public void transfer(TransferStrategy transferStrategy, List<Food> foods, String actualDate) {
         transferStrategy.transfer(foods, actualDate);
+    }
+
+    public void resort(String actualDate) {
+        List<Food> foods = new CopyOnWriteArrayList<>();
+
+        foods.addAll(Shop.getInstance().getFoods());
+        foods.addAll(Trash.getInstance().getFoods());
+        foods.addAll(Warehouse.getInstance().getFoods());
+
+        List<TransferStrategy> transferStrategies = new ArrayList<>();
+        transferStrategies.add(new ShopFoodTransfer());
+        transferStrategies.add(new TrashFoodTransfer());
+        transferStrategies.add(new WarehouseFoodTransfer());
+        for (TransferStrategy transferStrategy : transferStrategies) {
+            transfer(transferStrategy, foods, actualDate);
+        }
     }
 }
